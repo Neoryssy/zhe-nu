@@ -1,0 +1,28 @@
+# Example for config.json
+# Copy this file and rename it to config.json
+
+{
+  "dev": true, // Set development mode
+  "lavalink": {
+    "node": {
+      "name": "Lavalink", // The name of manager node. You can set this to whatever you want.
+      "url": "host:port", // The URL of Lavalink server
+      "auth": "pass", // The password of the Lavalink server
+      "secure": true // Set true if Lavalink server uses SSL
+    },
+    "options": {
+      "reconnectInterval": 5000, // The timeout before trying to reconnect to Lavalink server (ms)
+      "reconnectTries": 10 // The number of times to try and reconnect to Lavalink before giving up
+    }
+  },
+  "logger": {
+    "enabled": true, // Set true for logging
+    "logPath": "./logs", // The path to the logs folder relative to root dir
+    "maxLogSize": 10485760, // The maximum size (in bytes) for the log file
+    "backups": 5 // The number of old log files
+  },
+  "defaultPrefix": "!d", // Default prefix
+  "defaultVolume": 1, //
+  "24/7": false, //
+  "website": "https://zhe-nu.ru" //
+}
