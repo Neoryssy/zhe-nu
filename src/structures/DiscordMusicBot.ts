@@ -4,7 +4,7 @@ import { Client, ClientOptions, Collection } from 'discord.js'
 import { Command } from './Command'
 import BotConfig from './BotConfig'
 import Logger from './Logger'
-import { Connectors, Shoukaku } from 'shoukaku'
+import { Connectors, Shoukaku, ShoukakuOptions } from 'shoukaku'
 import assignManagerEvents from '../events/manager/manager'
 import СEvent from './CEvent'
 import RegisterSlashCommands from '../utils/RegisterSlashCommands'
@@ -45,16 +45,11 @@ export default class DiscordMusicBot extends Client {
   build(token: string) {
     this._log.info('Building bot...')
 
-    const Nodes = [
-      {
-        name: 'Localhost',
-        url: 'localhost:2333',
-        auth: 'youshallnotpass',
-      },
-    ]
+    const Nodes = [this._config.lavalink.node]
+    const options = this._config.lavalink.options
 
     this._log.info('Initialize manager...')
-    this._manager = new Shoukaku(new Connectors.DiscordJS(this), Nodes)
+    this._manager = new Shoukaku(new Connectors.DiscordJS(this), Nodes, options)
     assignManagerEvents(this)
     this._log.info('Manager initialized!')
 

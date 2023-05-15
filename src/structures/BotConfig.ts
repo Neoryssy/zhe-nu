@@ -11,6 +11,18 @@ export interface ILoggerConfig {
 
 export default class BotConfig {
   dev: boolean
+  lavalink: {
+    node: {
+      name: string
+      url: string
+      auth: string
+      secure?: boolean
+    }
+    options: {
+      reconnectInterval?: number
+      recconnectTries?: number
+    }
+  }
   logger: ILoggerConfig
   defaultPrefix: string
   defaultVolume: number
@@ -30,6 +42,8 @@ export default class BotConfig {
         throw new Error('Missing defaultPrefix in config.json')
 
       this.dev = config.dev || false
+
+      this.lavalink = config.lavalink
       this.logger = {
         backups: config.logger.backups || 3,
         enabled: config.logger.enabled || false,
