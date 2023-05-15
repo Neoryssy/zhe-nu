@@ -1,0 +1,27 @@
+# IDE
+.idea/
+.vscode/
+
+# Logs
+logs/
+*.log
+*.log.*.gz
+
+# Optional npm cache directory
+.npm
+
+# Dependency directories
+node_modules/
+
+# dotenv environment variables file
+.env
+
+# Config
+application.yml
+config.json
+
+# Build output
+dist/
+
+# Scripts
+registerDevSlashCommands.js

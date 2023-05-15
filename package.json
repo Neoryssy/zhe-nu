@@ -1,0 +1,23 @@
+{
+  "name": "zhe_nu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "start": "npm run build && node dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.0.3",
+    "log4js": "^6.9.1",
+    "shoukaku": "^3.4.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "^2.0.1",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.4"
+  }
+}
