@@ -1,0 +1,23 @@
+# IDE
+.idea/
+.vscode/
+
+# GIT
+.git
+
+# Logs
+logs/
+*.log
+*.log.*.gz
+
+# Optional npm cache directory
+.npm
+
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+
+# Scripts
+registerDevSlashCommands.js
