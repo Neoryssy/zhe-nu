@@ -20,7 +20,7 @@ export default class BotConfig {
     }
     options: {
       reconnectInterval?: number
-      recconnectTries?: number
+      reconnectTries?: number
     }
   }
   logger: ILoggerConfig
@@ -41,9 +41,20 @@ export default class BotConfig {
       if (!config.defaultPrefix)
         throw new Error('Missing defaultPrefix in config.json')
 
-      this.dev = config.dev || false
+      this.dev = process.env.NODE_ENV !== 'production'
 
-      this.lavalink = config.lavalink
+      this.lavalink = {
+        node: {
+          name: config.lavalink.node.name,
+          url: this.dev ? 'localhost:2333' : config.lavalink.node.url,
+          auth: config.lavalink.node.auth,
+          secure: config.lavalink.node.secure,
+        },
+        options: {
+          reconnectInterval: config.lavalink.options.reconnectInterval,
+          reconnectTries: config.lavalink.options.reconnectTries,
+        },
+      }
       this.logger = {
         backups: config.logger.backups || 3,
         enabled: config.logger.enabled || false,
