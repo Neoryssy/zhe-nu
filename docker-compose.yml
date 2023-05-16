@@ -1,0 +1,38 @@
+services:
+
+  lavalink:
+    image: ghcr.io/freyacodes/lavalink:3
+    container_name: lavalink
+    restart: unless-stopped
+    environment:
+        - SERVER_PORT=2333
+        - LAVALINK_SERVER_PASSWORD=youshallnotpass
+    volumes:
+        - ./application.yml:/opt/Lavalink/application.yml:ro
+    hostname: lavalink
+    ports:
+      - "2333:2333"
+    networks:
+      zhe-nu-net:
+        ipv4_address: 172.16.1.4
+
+  discord-bot:
+    container_name: discord-bot
+    build:
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    volumes:
+      - ./node_modules:/app/node_modules
+      - ./src:/app/src
+      - ./logs:/app/logs:rw
+      - ./config.json:/app/config.json
+    networks:
+      zhe-nu-net:
+        ipv4_address: 172.16.1.5 
+
+networks:
+  zhe-nu-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.1.0/24
