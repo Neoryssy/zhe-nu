@@ -63,7 +63,7 @@ export default class DiscordMusicBot extends Client {
   loadEvents() {
     this._log.info('Loading events...')
 
-    const ext = '.js'
+    const ext = this._config.dev ? '.ts' : '.js'
     const eventsPath = path.join(__dirname, '..', 'events', 'client')
     const eventFiles = fs
       .readdirSync(eventsPath)
@@ -90,7 +90,7 @@ export default class DiscordMusicBot extends Client {
     try {
       this._log.info('Loading commands...')
 
-      const ext = '.js'
+      const ext = this._config.dev ? '.ts' : '.js'
       const foldersPath = path.join(__dirname, '..', 'commands')
       const commandFolders = fs.readdirSync(foldersPath) as string[]
 

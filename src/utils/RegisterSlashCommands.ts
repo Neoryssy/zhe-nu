@@ -17,7 +17,7 @@ export default async (client: DiscordMusicBot, guildId?: string) => {
   const commands = []
   client.log.info('Grabing slash commands...')
 
-  const ext = '.js' //this._config.dev ? '.ts' : '.js'
+  const ext = client.config.dev ? '.ts' : '.js'
   const foldersPath = path.join(__dirname, '..', 'commands')
   const commandFolders = fs.readdirSync(foldersPath) as string[]
 
