@@ -1,0 +1,9 @@
+FROM node:18.16.0
+
+WORKDIR /app
+COPY package.json /app
+RUN npm install --quiet
+
+COPY .env nodemon.json tsconfig.json /app/
+
+CMD npm run start-dev
