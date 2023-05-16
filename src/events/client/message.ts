@@ -25,9 +25,13 @@ module.exports = new CEvent({
       if (!command) return
 
       try {
+        client.log.info(`Executing command "${command.name}"`)
         await command.messageExecute(client, message, args)
+        client.log.info(`Executed command "${command.name}"`)
       } catch (error) {
-        client.log.error(`There was an error while executing command "${command.name}"!`)
+        client.log.error(
+          `There was an error while executing command "${command.name}"!`
+        )
         client.log.error(error)
 
         message.reply({
