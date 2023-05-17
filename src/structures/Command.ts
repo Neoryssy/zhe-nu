@@ -1,4 +1,8 @@
-import { ChatInputCommandInteraction, Message } from 'discord.js'
+import {
+  ApplicationCommandOptionData,
+  ChatInputCommandInteraction,
+  Message,
+} from 'discord.js'
 import DiscordMusicBot from './DiscordMusicBot'
 
 export interface ICommandOptions {
@@ -7,6 +11,7 @@ export interface ICommandOptions {
   slashCommand?: {
     enabled: boolean
     ephemeral?: boolean
+    options?: ApplicationCommandOptionData[]
   }
   aliases?: string[]
   usage?: string
@@ -30,6 +35,7 @@ export class Command {
   private _slashCommand: {
     enabled: boolean
     ephemeral?: boolean
+    options?: ApplicationCommandOptionData[]
   }
   private _aliases: string[]
   private _usage: string

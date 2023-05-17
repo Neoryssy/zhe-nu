@@ -7,7 +7,6 @@ import Logger from './Logger'
 import { Connectors, Shoukaku, ShoukakuOptions } from 'shoukaku'
 import assignManagerEvents from '../events/manager/manager'
 import СEvent from './CEvent'
-import RegisterSlashCommands from '../utils/RegisterSlashCommands'
 
 export default class DiscordMusicBot extends Client {
   private _commands: Collection<string, Command>
@@ -114,9 +113,5 @@ export default class DiscordMusicBot extends Client {
       this._log.error(error)
       process.exit(1)
     }
-  }
-
-  registerSlashCommands() {
-    RegisterSlashCommands(this)
   }
 }

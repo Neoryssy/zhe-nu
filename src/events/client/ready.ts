@@ -1,12 +1,22 @@
 import { Events } from 'discord.js'
 import DiscordMusicBot from '../../structures/DiscordMusicBot'
 import CEvent from '../../structures/CEvent'
+import SlashCommandsManager from '../../utils/SlashCommandsManager'
 
 module.exports = new CEvent({
   name: Events.ClientReady,
   executor: async (client: DiscordMusicBot) => {
-    client.log.info(`Bot successfully logged in as ${client.user?.tag}!`)
+    const guilds = await client.guilds.fetch()
 
-    if (!client.config.dev) client.registerSlashCommands()
+    try {
+      guilds.forEach(async (oAuth2Guild) => {
+        const guild = await oAuth2Guild.fetch()
+        await new SlashCommandsManager(client).updateGuildSlashCommands(guild)
+      })
+    } catch (error) {
+      client.log.error(error)
+    }
+
+    client.log.info(`Bot successfully logged in as ${client.user?.tag}!`)
   },
 })
