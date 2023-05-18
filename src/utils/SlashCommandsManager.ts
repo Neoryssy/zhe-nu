@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { ApplicationCommandData, Collection, Guild } from 'discord.js'
+import { ApplicationCommandData, ApplicationCommandDataResolvable, Collection, Guild } from 'discord.js'
 import DiscordMusicBot from '../structures/DiscordMusicBot'
 import { Command } from '../structures/Command'
 
@@ -43,7 +43,7 @@ export default class SlashCommandsManager {
    * @returns true if commands were setted.
    */
   public async setGuildSlashCommands(guild: Guild): Promise<boolean> {
-    const cmds: ApplicationCommandData[] = []
+    const cmds: ApplicationCommandDataResolvable[] = []
     this._commands.forEach((command) => {
       cmds.push(command)
     })
