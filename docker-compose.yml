@@ -1,15 +1,16 @@
 services:
-
   lavalink:
     image: ghcr.io/freyacodes/lavalink:3
     container_name: lavalink
     restart: unless-stopped
     environment:
-        - SERVER_PORT=2333
-        - LAVALINK_SERVER_PASSWORD=youshallnotpass
+      - SERVER_PORT=2333
+      - LAVALINK_SERVER_PASSWORD=youshallnotpass
+    volumes:
+      - ./application.yml:/opt/Lavalink/application.yml:ro
     hostname: lavalink
     ports:
-      - "2333:2333"
+      - '2333:2333'
     networks:
       zhe-nu-net:
         ipv4_address: 172.16.1.4
@@ -20,9 +21,16 @@ services:
       - lavalink
     container_name: discord-bot
     restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    volumes:
+      - ./config.json:/app/config.json:ro
+      - ./logs:/app/logs:rw
     networks:
       zhe-nu-net:
-        ipv4_address: 172.16.1.5 
+        ipv4_address: 172.16.1.5
 
 networks:
   zhe-nu-net:

@@ -5,6 +5,9 @@
 # GIT
 .git
 
+# .ENV
+.env
+
 # Logs
 logs/
 *.log
@@ -18,6 +21,3 @@ node_modules/
 
 # Build output
 dist/
-
-# Scripts
-registerDevSlashCommands.js
