@@ -1,16 +1,16 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { ApplicationCommandData, Guild } from 'discord.js'
+import { ApplicationCommandData, Collection, Guild } from 'discord.js'
 import DiscordMusicBot from '../structures/DiscordMusicBot'
 import { Command } from '../structures/Command'
 
 export default class SlashCommandsManager {
   private _client: DiscordMusicBot
-  private _commands: ApplicationCommandData[]
+  private _commands: Collection<string, ApplicationCommandData>
 
   constructor(client: DiscordMusicBot) {
     this._client = client
-    this._commands = []
+    this._commands = new Collection()
 
     const ext = client.config.dev ? '.ts' : '.js'
     const foldersPath = path.join(__dirname, '..', 'commands')
@@ -31,7 +31,7 @@ export default class SlashCommandsManager {
             description: command.description,
             options: command.slashCommand.options,
           }
-          this._commands.push(data)
+          this._commands.set(command.name, data)
         }
       }
     }
@@ -39,12 +39,17 @@ export default class SlashCommandsManager {
 
   /**
    * Sets all found slash commands to guild, the maximum number of commands per day is 200. Use in extreme cases.
-   * @param guild 
+   * @param guild
    * @returns true if commands were setted.
    */
   public async setGuildSlashCommands(guild: Guild): Promise<boolean> {
+    const cmds: ApplicationCommandData[] = []
+    this._commands.forEach((command) => {
+      cmds.push(command)
+    })
+
     try {
-      await guild.commands.set(this._commands)
+      await guild.commands.set(cmds)
       return true
     } catch (error) {
       this._client.log.error('Unable to register slash commands')
@@ -55,7 +60,7 @@ export default class SlashCommandsManager {
 
   /**
    * Update all found slash commands to guild, create new if command not exists.
-   * @param guild 
+   * @param guild
    * @returns true if commands were updated.
    */
   public async updateGuildSlashCommands(guild: Guild): Promise<boolean> {
@@ -64,8 +69,13 @@ export default class SlashCommandsManager {
 
       this._commands.forEach(async (command) => {
         const guildCommand = guildCommands.get(command.name)
+
         if (!guildCommand) await guild.commands.create(command)
         else await guild.commands.edit(guildCommand, command)
+      })
+
+      guildCommands.forEach((command) => {
+        if (!this._commands.has(command.name)) guild.commands.delete(command)
       })
 
       return true
