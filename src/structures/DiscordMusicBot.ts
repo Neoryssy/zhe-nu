@@ -41,7 +41,7 @@ export default class DiscordMusicBot extends Client {
     this._manager = manager
   }
 
-  build(token: string) {
+  build() {
     this._log.info('Building bot...')
 
     const Nodes = [this._config.lavalink.node]
@@ -53,7 +53,7 @@ export default class DiscordMusicBot extends Client {
     this._log.info('Manager initialized!')
 
     this._log.info('Logining bot by token...')
-    this.login(token)
+    this.login(this.config.token)
     this._log.info('Logged bot by token!')
 
     this._log.info('Successfully built bot!')

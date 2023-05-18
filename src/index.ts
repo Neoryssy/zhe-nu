@@ -19,12 +19,4 @@ const intents = [
 ]
 const client = new DiscordMusicBot({ intents })
 
-const token = client.config.dev
-  ? process.env.DISCORD_DEV_TOKEN
-  : process.env.DISCORD_TOKEN
-if (!token) {
-  client.log.error('Not provided DISCORD_TOKEN or DISCORD_DEV_TOKEN in .env')
-  process.exit(1)
-}
-
-client.build(token)
+client.build()
