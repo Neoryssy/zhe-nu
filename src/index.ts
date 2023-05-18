@@ -16,6 +16,7 @@ const intents = [
   GatewayIntentBits.Guilds,
   GatewayIntentBits.GuildMessages,
   GatewayIntentBits.MessageContent,
+  GatewayIntentBits.GuildVoiceStates
 ]
 const client = new DiscordMusicBot({ intents })
 
