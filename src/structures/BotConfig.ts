@@ -38,15 +38,15 @@ export default class BotConfig {
       const fPath = path.join(__dirname, '..', '..', 'config.json')
       const config = JSON.parse(fs.readFileSync(fPath).toString())
 
-      if (!config.defaultPrefix)
-        throw new Error('Missing defaultPrefix in config.json')
+      this.validateENV()
+      this.validateConfig(config)
 
       this.dev = process.env.NODE_ENV !== 'production'
 
       this.lavalink = {
         node: {
           name: config.lavalink.node.name,
-          url: this.dev ? 'localhost:2333' : config.lavalink.node.url,
+          url: config.lavalink.node.url,
           auth: config.lavalink.node.auth,
           secure: config.lavalink.node.secure,
         },
@@ -62,22 +62,33 @@ export default class BotConfig {
         maxLogSize: config.logger.maxLogSize || 10 * 1024 * 1024, // 10 MB
       }
 
-      if (this.dev) {
-        if (!process.env.DISCORD_DEV_TOKEN)
-          throw new Error('Missing DISCORD_DEV_TOKEN in .env')
-        this.token = process.env.DISCORD_DEV_TOKEN
-      } else {
-        if (!process.env.DISCORD_TOKEN)
-          throw new Error('Missing DISCORD_TOKEN in .env')
-        this.token = process.env.DISCORD_TOKEN
-      }
-
+      this.token = process.env.DISCORD_TOKEN as string
       this.defaultPrefix = config.defaultPrefix
       this.defaultVolume = config.defaultVolume || 100
       this['24/7'] = config['24/7'] || false
       this.website = config.website || 'https://example.com'
     } catch (error) {
       console.log('Unable to load config')
+      console.log(error)
+      process.exit(1)
+    }
+  }
+
+  validateConfig(config: any) {
+    try {
+      if (!config.defaultPrefix)
+        throw new Error('Missing defaultPrefix in config.json')
+    } catch (error) {
+      console.log(error)
+      process.exit(1)
+    }
+  }
+  validateENV() {
+    try {
+      if (!process.env.DISCORD_TOKEN) {
+        throw new Error('Missing DISCORD_TOKEN in .env')
+      }
+    } catch (error) {
       console.log(error)
       process.exit(1)
     }
