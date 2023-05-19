@@ -1,0 +1,60 @@
+import {
+  APIInteractionGuildMember,
+  ChatInputCommandInteraction,
+  Guild,
+  GuildMember,
+  Message,
+  TextBasedChannel,
+  User,
+} from 'discord.js'
+
+export default class Context {
+  ctx: ChatInputCommandInteraction | Message
+  isInteraction: boolean
+  interaction: ChatInputCommandInteraction | null
+  message: Message | null
+  id: string
+  channelId: string
+  author: User
+  channel: TextBasedChannel | null
+  guild: Guild | null
+  createdAt: Date
+  createdTimestamp: number
+  member: GuildMember | APIInteractionGuildMember | null
+  args!: any[]
+  msg: any
+
+  constructor(ctx: ChatInputCommandInteraction | Message, args: any[]) {
+    this.ctx = ctx
+    this.isInteraction = ctx instanceof ChatInputCommandInteraction
+    this.interaction = ctx instanceof ChatInputCommandInteraction ? ctx : null
+    this.message = ctx instanceof Message ? ctx : null
+    this.id = ctx.id
+    this.channelId = ctx.channelId
+    this.author = ctx instanceof Message ? ctx.author : ctx.user
+    this.channel = ctx.channel
+    this.guild = ctx.guild
+    this.createdAt = ctx.createdAt
+    this.createdTimestamp = ctx.createdTimestamp
+    this.member = ctx.member
+    this.setArgs(args)
+  }
+
+  setArgs(args: any[]) {
+    if (this.isInteraction) {
+      this.args = args.map((arg) => arg.value)
+    } else {
+      this.args = args
+    }
+  }
+
+  async sendMessage(content: any): Promise<any> {
+    if (this.isInteraction) {
+      this.msg = await this.interaction?.reply(content)
+      return this.msg
+    } else {
+      this.msg = await this.message?.reply(content)
+      return this.msg
+    }
+  }
+}

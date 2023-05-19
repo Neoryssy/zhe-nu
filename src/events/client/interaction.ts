@@ -1,6 +1,7 @@
 import { BaseInteraction, Events, Interaction } from 'discord.js'
 import DiscordMusicBot from '../../structures/DiscordMusicBot'
 import CEvent from '../../structures/CEvent'
+import Context from '../../structures/Context'
 
 module.exports = new CEvent({
   name: Events.InteractionCreate,
@@ -16,8 +17,10 @@ module.exports = new CEvent({
       return
     }
 
+    const ctx = new Context(interaction, [...interaction.options.data])
+
     try {
-      await command.interactionExecute(client, interaction)
+      await command.interactionExecute(client, ctx)
     } catch (error) {
       if (interaction.replied || interaction.deferred) {
         client.log.warn('Interaction has been replied or deferred.')

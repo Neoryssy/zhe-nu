@@ -1,6 +1,7 @@
 import { ChannelType, Events, Message } from 'discord.js'
 import DiscordMusicBot from '../../structures/DiscordMusicBot'
 import CEvent from '../../structures/CEvent'
+import Context from '../../structures/Context'
 
 module.exports = new CEvent({
   name: Events.MessageCreate,
@@ -24,9 +25,11 @@ module.exports = new CEvent({
 
       if (!command) return
 
+      const ctx = new Context(message, args)
+
       try {
         client.log.info(`Executing command "${command.name}"`)
-        await command.messageExecute(client, message, args)
+        await command.messageExecute(client, ctx)
         client.log.info(`Executed command "${command.name}"`)
       } catch (error) {
         client.log.error(

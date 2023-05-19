@@ -1,9 +1,7 @@
-import {
-  ApplicationCommandOptionData,
-  ChatInputCommandInteraction,
-  Message,
-} from 'discord.js'
+import { ApplicationCommandOptionData } from 'discord.js'
 import DiscordMusicBot from './DiscordMusicBot'
+import Context from './Context'
+import CommandContext from './Context'
 
 export interface ICommandOptions {
   name: string
@@ -18,14 +16,10 @@ export interface ICommandOptions {
   cooldown?: number
   guildOnly?: boolean
   permissions?: string[]
-  messageExecutor(
-    client: DiscordMusicBot,
-    message: Message,
-    args: string[]
-  ): Promise<void>
+  messageExecutor(client: DiscordMusicBot, ctx: CommandContext): Promise<void>
   interactionExecutor?(
     client: DiscordMusicBot,
-    interaction: ChatInputCommandInteraction
+    ctx: CommandContext
   ): Promise<void>
 }
 
@@ -44,12 +38,11 @@ export class Command {
   private _permissions: string[]
   private _messageExecutor: (
     client: DiscordMusicBot,
-    message: Message,
-    args: string[]
+    ctx: Context
   ) => Promise<void>
   private _interactionExecutor?: (
     client: DiscordMusicBot,
-    interaction: ChatInputCommandInteraction
+    ctx: Context
   ) => Promise<void>
 
   constructor(options: ICommandOptions) {
@@ -97,24 +90,17 @@ export class Command {
     return this._permissions
   }
 
-  async interactionExecute(
-    client: DiscordMusicBot,
-    interaction: ChatInputCommandInteraction
-  ) {
+  async interactionExecute(client: DiscordMusicBot, ctx: Context) {
     if (!this._interactionExecutor) {
       client.log.warn(
         `Attempt to call an unregistered slash command "${this._name}"!`
       )
       return
     }
-    this._interactionExecutor(client, interaction)
+    this._interactionExecutor(client, ctx)
   }
 
-  async messageExecute(
-    client: DiscordMusicBot,
-    message: Message,
-    args: string[]
-  ) {
-    this._messageExecutor(client, message, args)
+  async messageExecute(client: DiscordMusicBot, ctx: Context) {
+    this._messageExecutor(client, ctx)
   }
 }
