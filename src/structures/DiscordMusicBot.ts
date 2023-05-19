@@ -7,12 +7,14 @@ import Logger from './Logger'
 import { Connectors, Shoukaku, ShoukakuOptions } from 'shoukaku'
 import assignManagerEvents from '../events/manager/manager'
 import СEvent from './CEvent'
+import Subscription from './Subscription'
 
 export default class DiscordMusicBot extends Client {
   private _commands: Collection<string, Command>
   private _config: BotConfig
   private _log: Logger
   private _manager?: Shoukaku
+  private _subsription: Subscription
 
   constructor(options: ClientOptions) {
     super(options)
@@ -20,6 +22,7 @@ export default class DiscordMusicBot extends Client {
     this._commands = new Collection()
     this._config = new BotConfig(this)
     this._log = new Logger(this._config.logger)
+    this._subsription = new Subscription(this)
 
     this.loadCommands()
     this.loadEvents()
@@ -37,8 +40,8 @@ export default class DiscordMusicBot extends Client {
   get manager(): Shoukaku | undefined {
     return this._manager
   }
-  set manager(manager: Shoukaku | undefined) {
-    this._manager = manager
+  get subsription() {
+    return this._subsription
   }
 
   build() {
