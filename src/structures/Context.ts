@@ -48,11 +48,8 @@ export default class Context {
   }
 
   setArgs(args: any[]) {
-    if (this.isInteraction) {
-      this.args = args.map((arg) => arg.value)
-    } else {
-      this.args = args
-    }
+    if (this.isInteraction) this.args = args.map((arg) => arg.value)
+    else this.args = args
   }
 
   async sendMessage(content: any): Promise<any> {
