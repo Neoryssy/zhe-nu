@@ -56,10 +56,12 @@ export default class Context {
   }
 
   async sendMessage(content: any): Promise<any> {
-      if (this.isInteraction) {
-        this.msg = await this.interaction?.reply(content)
-      } else {
-        this.msg = await this.message?.reply(content)
+    try {
+      if (this.isInteraction) this.msg = await this.interaction?.reply(content)
+      else this.msg = await this.message?.reply(content)
+    } catch (e) {
+      console.log(e)
+    }
     return this.msg
   }
 }
