@@ -7,8 +7,10 @@ import {
   TextBasedChannel,
   User,
 } from 'discord.js'
+import DiscordMusicBot from './DiscordMusicBot'
 
 export default class Context {
+  client: DiscordMusicBot
   ctx: ChatInputCommandInteraction | Message
   isInteraction: boolean
   interaction: ChatInputCommandInteraction | null
@@ -24,7 +26,12 @@ export default class Context {
   args!: any[]
   msg: any
 
-  constructor(ctx: ChatInputCommandInteraction | Message, args: any[]) {
+  constructor(
+    client: DiscordMusicBot,
+    ctx: ChatInputCommandInteraction | Message,
+    args: any[]
+  ) {
+    this.client = client
     this.ctx = ctx
     this.isInteraction = ctx instanceof ChatInputCommandInteraction
     this.interaction = ctx instanceof ChatInputCommandInteraction ? ctx : null
@@ -49,12 +56,10 @@ export default class Context {
   }
 
   async sendMessage(content: any): Promise<any> {
-    if (this.isInteraction) {
-      this.msg = await this.interaction?.reply(content)
-      return this.msg
-    } else {
-      this.msg = await this.message?.reply(content)
-      return this.msg
-    }
+      if (this.isInteraction) {
+        this.msg = await this.interaction?.reply(content)
+      } else {
+        this.msg = await this.message?.reply(content)
+    return this.msg
   }
 }

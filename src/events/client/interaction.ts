@@ -17,7 +17,7 @@ module.exports = new CEvent({
       return
     }
 
-    const ctx = new Context(interaction, [...interaction.options.data])
+    const ctx = new Context(client, interaction, [...interaction.options.data])
 
     try {
       await command.interactionExecute(client, ctx)

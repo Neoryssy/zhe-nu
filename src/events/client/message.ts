@@ -25,7 +25,7 @@ module.exports = new CEvent({
 
       if (!command) return
 
-      const ctx = new Context(message, args)
+      const ctx = new Context(client, message, args)
 
       try {
         client.log.info(`Executing command "${command.name}"`)
