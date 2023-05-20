@@ -47,6 +47,18 @@ export default class Context {
     this.setArgs(args)
   }
 
+  async editMessage(content: any) {
+    try {
+      if (this.msg)
+        if (this.isInteraction)
+          this.msg = await this.interaction?.editReply(content)
+        else this.msg = await this.message?.edit(content)
+    } catch (e) {
+      this.client.log.error(e)
+    }
+    return this.msg
+  }
+
   setArgs(args: any[]) {
     if (this.isInteraction) this.args = args.map((arg) => arg.value)
     else this.args = args
