@@ -2,6 +2,16 @@ import { Guild, TextBasedChannel, VoiceBasedChannel } from 'discord.js'
 import DiscordMusicBot from './DiscordMusicBot'
 import Dispatcher from './Dispather'
 
+const isValidURL = (str: string) => {
+  let url: URL
+  try {
+    url = new URL(str)
+  } catch (_) {
+    return false
+  }
+  return url.protocol === 'http:' || url.protocol === 'https:'
+}
+
 export default class Subscription extends Map {
   private _client: DiscordMusicBot
 
@@ -47,5 +57,18 @@ export default class Subscription extends Map {
     }
 
     return dispatcher
+  }
+
+  async search(query: string) {
+    const node = this._client.manager?.getNode()
+    let response = null
+    try {
+      response = await node!.rest.resolve(
+        isValidURL(query) ? query : `ytsearch:${query}`
+      )
+    } catch (e) {
+      this._client.log.error(e)
+    }
+    return response
   }
 }
