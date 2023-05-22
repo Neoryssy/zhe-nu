@@ -12,7 +12,7 @@ const isValidURL = (str: string) => {
   return url.protocol === 'http:' || url.protocol === 'https:'
 }
 
-export default class Subscription extends Map {
+export default class Subscription extends Map<string, Dispatcher> {
   private _client: DiscordMusicBot
 
   constructor(client: DiscordMusicBot) {
@@ -20,43 +20,34 @@ export default class Subscription extends Map {
     this._client = client
   }
 
-  clear() {
-    return super.clear()
-  }
-  delete(guildId: string): boolean {
-    return super.delete(guildId)
-  }
-  get(guildId: string): Dispatcher {
-    return super.get(guildId)
-  }
-  set(guildId: string, dispatcher: Dispatcher): this {
-    return super.set(guildId, dispatcher)
-  }
-
   async create(
     guild: Guild,
     channel: TextBasedChannel,
     voice: VoiceBasedChannel
   ) {
-    let dispatcher = this.get(guild.id)
-    if (!dispatcher) {
-      const node = this._client.manager?.getNode()
-      const player = await node!.joinChannel({
-        channelId: voice.id,
-        guildId: guild.id,
-        shardId: 0,
-      })
+    try {
+      let dispatcher = this.get(guild.id)
+      if (!dispatcher) {
+        const node = this._client.manager?.getNode()
+        const player = await node!.joinChannel({
+          channelId: voice.id,
+          guildId: guild.id,
+          shardId: 0,
+        })
 
-      dispatcher = new Dispatcher({
-        client: this._client,
-        guildId: guild.id,
-        channelId: voice.id,
-        player,
-      })
-      this.set(guild.id, dispatcher)
+        dispatcher = new Dispatcher({
+          client: this._client,
+          guildId: guild.id,
+          channelId: channel.id,
+          voiceId: voice.id,
+          player,
+        })
+        this.set(guild.id, dispatcher)
+      }
+      return dispatcher
+    } catch (error) {
+      this._client.log.error(error)
     }
-
-    return dispatcher
   }
 
   async search(query: string) {
