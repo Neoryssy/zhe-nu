@@ -16,11 +16,7 @@ export interface ICommandOptions {
   cooldown?: number
   guildOnly?: boolean
   permissions?: string[]
-  messageExecutor(client: DiscordMusicBot, ctx: CommandContext): Promise<void>
-  interactionExecutor?(
-    client: DiscordMusicBot,
-    ctx: CommandContext
-  ): Promise<void>
+  executor(client: DiscordMusicBot, ctx: Context, args: any[]): Promise<void>
 }
 
 export class Command {
@@ -36,13 +32,10 @@ export class Command {
   private _cooldown: number
   private _guildOnly: boolean
   private _permissions: string[]
-  private _messageExecutor: (
+  private _executor: (
     client: DiscordMusicBot,
-    ctx: Context
-  ) => Promise<void>
-  private _interactionExecutor?: (
-    client: DiscordMusicBot,
-    ctx: Context
+    ctx: Context,
+    args: any[]
   ) => Promise<void>
 
   constructor(options: ICommandOptions) {
@@ -54,8 +47,7 @@ export class Command {
     this._cooldown = options.cooldown || 0
     this._guildOnly = options.guildOnly || false
     this._permissions = options.permissions || []
-    this._messageExecutor = options.messageExecutor
-    this._interactionExecutor = options.interactionExecutor
+    this._executor = options.executor
   }
 
   get name() {
@@ -90,17 +82,11 @@ export class Command {
     return this._permissions
   }
 
-  async interactionExecute(client: DiscordMusicBot, ctx: Context) {
-    if (!this._interactionExecutor) {
-      client.log.warn(
-        `Attempt to call an unregistered slash command "${this._name}"!`
-      )
-      return
+  async execute(client: DiscordMusicBot, ctx: Context, args: any[]) {
+    try {
+      await this._executor(client, ctx, args)
+    } catch (error) {
+      client.log.error(error)
     }
-    this._interactionExecutor(client, ctx)
-  }
-
-  async messageExecute(client: DiscordMusicBot, ctx: Context) {
-    this._messageExecutor(client, ctx)
   }
 }

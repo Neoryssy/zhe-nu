@@ -20,7 +20,7 @@ module.exports = new CEvent({
     const ctx = new Context(client, interaction, [...interaction.options.data])
 
     try {
-      await command.interactionExecute(client, ctx)
+      await command.execute(client, ctx, ctx.args)
     } catch (error) {
       if (interaction.replied || interaction.deferred) {
         client.log.warn('Interaction has been replied or deferred.')

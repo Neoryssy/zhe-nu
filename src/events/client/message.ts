@@ -29,7 +29,7 @@ module.exports = new CEvent({
 
       try {
         client.log.info(`Executing command "${command.name}"`)
-        await command.messageExecute(client, ctx)
+        await command.execute(client, ctx, ctx.args)
         client.log.info(`Executed command "${command.name}"`)
       } catch (error) {
         client.log.error(

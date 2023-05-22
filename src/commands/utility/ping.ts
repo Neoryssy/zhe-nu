@@ -7,21 +7,18 @@ module.exports = new Command({
   slashCommand: {
     enabled: true,
   },
-  messageExecutor: async (client, message, args) => {
-    const sent = await message.reply('Pinging...')
-    await sent.edit(
-      `Roundtrip latency: ${sent.createdTimestamp - message.createdTimestamp}ms`
-    )
-  },
-  interactionExecutor: async (client, interaction) => {
-    const sent = await interaction.reply({
-      content: 'Pinging...',
-      fetchReply: true,
-    })
-    await interaction.editReply(
-      `Roundtrip latency: ${
-        sent.createdTimestamp - interaction.createdTimestamp
-      }ms`
-    )
+  executor: async (client, ctx, args) => {
+    try {
+      const sent = await ctx.sendMessage({
+        content: 'Pinging...',
+      })
+      await ctx.editMessage({
+        content: `Roundtrip latency: ${
+          sent.createdTimestamp - ctx.createdTimestamp
+        }ms`,
+      })
+    } catch (error) {
+      client.log.error(error)
+    }
   },
 })
