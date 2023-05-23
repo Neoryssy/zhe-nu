@@ -71,6 +71,9 @@ export default class Dispatcher {
   get client() {
     return this._client
   }
+  get current() {
+    return this._current
+  }
   get guildId() {
     return this._guildId
   }
@@ -79,6 +82,9 @@ export default class Dispatcher {
   }
   get voiceId() {
     return this._player.connection.channelId
+  }
+  get paused() {
+    return this._player.paused
   }
   get player() {
     return this._player
@@ -109,13 +115,32 @@ export default class Dispatcher {
     }
   }
 
+  pause() {
+    if (!this._current) return
+    if (this.paused) return
+
+    return this._player.setPaused(true)
+  }
+
   async tryPlay() {
     const track = this._queue.shift()
 
     if (!this.voiceId) return
-    if (!track) return
+    if (!track) {
+      this._current = null
+      return
+    }
     if (this._current) return
 
-    this._player.playTrack(track)
+    await this._player.playTrack(track)
+    this._current = track
+    console.log(this._current)
+  }
+
+  unpause() {
+    if (!this._current) return
+    if (!this.paused) return
+
+    return this._player.setPaused(false)
   }
 }
