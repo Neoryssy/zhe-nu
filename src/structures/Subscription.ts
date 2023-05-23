@@ -1,16 +1,7 @@
 import { Guild, TextBasedChannel, VoiceBasedChannel } from 'discord.js'
 import DiscordMusicBot from './DiscordMusicBot'
 import Dispatcher from './Dispather'
-
-const isValidURL = (str: string) => {
-  let url: URL
-  try {
-    url = new URL(str)
-  } catch (_) {
-    return false
-  }
-  return url.protocol === 'http:' || url.protocol === 'https:'
-}
+import { isValidURL } from '../utils/URL'
 
 export default class Subscription extends Map<string, Dispatcher> {
   private _client: DiscordMusicBot
