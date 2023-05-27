@@ -66,6 +66,12 @@ export default class Dispatcher {
     this._player.on('end', async () => {
       await this.tryPlay()
     })
+    this._player.on('closed', (reason) => {
+      console.log(reason)
+    })
+    // this._player.on('update', (data) => {
+    //   console.log(data)
+    // })
   }
 
   get client() {
@@ -134,7 +140,6 @@ export default class Dispatcher {
 
     await this._player.playTrack(track)
     this._current = track
-    console.log(this._current)
   }
 
   unpause() {

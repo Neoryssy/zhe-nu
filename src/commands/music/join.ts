@@ -10,7 +10,6 @@ import {
 import { Command } from '../../structures/Command'
 import Context from '../../structures/Context'
 import DiscordMusicBot from '../../structures/DiscordMusicBot'
-import Dispatcher from '../../structures/Dispather'
 
 module.exports = new Command({
   name: 'join',

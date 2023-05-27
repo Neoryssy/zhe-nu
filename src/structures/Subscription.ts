@@ -1,6 +1,6 @@
 import { Guild, TextBasedChannel, VoiceBasedChannel } from 'discord.js'
 import DiscordMusicBot from './DiscordMusicBot'
-import Dispatcher from './Dispather'
+import Dispatcher from './Dispatcher'
 import { isValidURL } from '../utils/URL'
 
 export default class Subscription extends Map<string, Dispatcher> {
