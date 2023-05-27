@@ -44,7 +44,7 @@ export default class DiscordMusicBot extends Client {
     return this._subsription
   }
 
-  build() {
+  async build() {
     this._log.info('Building bot...')
 
     const Nodes = [this._config.lavalink.node]
@@ -52,11 +52,11 @@ export default class DiscordMusicBot extends Client {
 
     this._log.info('Initialize manager...')
     this._manager = new Shoukaku(new Connectors.DiscordJS(this), Nodes, options)
-    assignManagerEvents(this)
+    await assignManagerEvents(this)
     this._log.info('Manager initialized!')
 
     this._log.info('Logining bot by token...')
-    this.login(this.config.token)
+    await this.login(this.config.token)
     this._log.info('Logged bot by token!')
 
     this._log.info('Successfully built bot!')
