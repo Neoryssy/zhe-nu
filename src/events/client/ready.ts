@@ -5,6 +5,7 @@ import SlashCommandsManager from '../../utils/SlashCommandsManager'
 
 module.exports = new CEvent({
   name: Events.ClientReady,
+  once: true,
   executor: async (client: DiscordMusicBot) => {
     const guilds = await client.guilds.fetch()
 
