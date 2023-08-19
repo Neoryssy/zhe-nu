@@ -69,9 +69,6 @@ export default class Dispatcher {
     this._player.on('closed', (reason) => {
       console.log(reason)
     })
-    // this._player.on('update', (data) => {
-    //   console.log(data)
-    // })
   }
 
   get client() {
@@ -126,6 +123,11 @@ export default class Dispatcher {
     if (this.paused) return
 
     return this._player.setPaused(true)
+  }
+
+  stop() {
+    this._player.stopTrack()
+    this._current = null
   }
 
   async tryPlay() {
