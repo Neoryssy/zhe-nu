@@ -1,4 +1,4 @@
-import { Player, Track } from 'shoukaku'
+import { Player, Track, TrackEndReason } from 'shoukaku'
 import DiscordMusicBot from './DiscordMusicBot'
 import { Guild, TextBasedChannel, User, VoiceBasedChannel } from 'discord.js'
 export interface IDiscordTrack {
@@ -63,8 +63,13 @@ export default class Dispatcher {
     this._queue = []
     this._current = null
 
-    this._player.on('end', async () => {
-      await this.tryPlay()
+    this._player.on('end', async (event) => {
+      this._current = null
+      console.log(event)
+
+      if ((event.reason === 'FINISHED')) {
+        await this.tryPlay()
+      }
     })
     this._player.on('closed', (reason) => {
       console.log(reason)
@@ -125,21 +130,25 @@ export default class Dispatcher {
     return this._player.setPaused(true)
   }
 
+  skip() {
+    if (!this._current) return
+    const position = this._current.info.length
+    this._player.seekTo(position)
+  }
+
   stop() {
     this._player.stopTrack()
-    this._current = null
   }
 
   async tryPlay() {
-    const track = this._queue.shift()
-
     if (!this.voiceId) return
-    if (!track) {
+    if (!this._queue.length) {
       this._current = null
       return
     }
     if (this._current) return
 
+    const track = this._queue.shift() as DiscordTrack
     await this._player.playTrack(track)
     this._current = track
   }
