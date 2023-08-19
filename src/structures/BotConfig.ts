@@ -38,10 +38,10 @@ export default class BotConfig {
       const fPath = path.join(__dirname, '..', '..', 'config.json')
       const config = JSON.parse(fs.readFileSync(fPath).toString())
 
-      this.validateENV()
-      this.validateConfig(config)
 
-      this.dev = process.env.NODE_ENV !== 'production'
+      this.validateConfig(config)
+      this.dev = !!config.dev
+      this.validateENV()
 
       this.lavalink = {
         node: {
@@ -62,7 +62,9 @@ export default class BotConfig {
         maxLogSize: config.logger.maxLogSize || 10 * 1024 * 1024, // 10 MB
       }
 
-      this.token = process.env.DISCORD_TOKEN as string
+      this.token = this.dev
+        ? (process.env.DISCORD_DEV_TOKEN as string)
+        : (process.env.DISCORD_TOKEN as string)
       this.defaultPrefix = config.defaultPrefix
       this.defaultVolume = config.defaultVolume || 100
       this['24/7'] = config['24/7'] || false
@@ -85,7 +87,9 @@ export default class BotConfig {
   }
   validateENV() {
     try {
-      if (!process.env.DISCORD_TOKEN) {
+      if (this.dev && !process.env.DISCORD_DEV_TOKEN)
+        throw new Error('Missing DISCORD_DEV_TOKEN in .env')
+      else if (!this.dev && !process.env.DISCORD_TOKEN) {
         throw new Error('Missing DISCORD_TOKEN in .env')
       }
     } catch (error) {
