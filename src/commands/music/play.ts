@@ -5,7 +5,7 @@ import {
   TextBasedChannel,
 } from 'discord.js'
 import { Command } from '../../structures/Command'
-import { DiscordTrack } from '../../structures/Dispather'
+import { DiscordTrack } from '../../structures/Dispatcher'
 import { isValidURL } from '../../utils/URL'
 
 module.exports = new Command({
