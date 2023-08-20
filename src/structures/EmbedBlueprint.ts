@@ -8,11 +8,6 @@ import {
 import DiscordMusicBot from './DiscordMusicBot'
 import { DiscordTrack } from './Dispatcher'
 
-type EnqueuePayload = {
-  track: DiscordTrack
-  type: 'track' | 'playlist'
-}
-
 export default class EmbedBlueprint {
   private _client: DiscordMusicBot
 
@@ -20,16 +15,26 @@ export default class EmbedBlueprint {
     this._client = client
   }
 
-  enqueue(payload: EnqueuePayload) {
-    const name =
-      payload.type === 'track'
-        ? 'Трек добавлен в очередь'
-        : 'Плейлист добавлен в очередь'
-    const value = `[${payload.track.info.title}](${payload.track.info.uri})`
+  enqueuePlaylist(playlistInfo: {
+    title: string
+    thumbnailURL: string
+    url: string
+  }) {
+    const value = `[${playlistInfo.title}](${playlistInfo.url})`
     const embed = new EmbedBuilder()
       .setColor('Blue')
-      .setThumbnail(payload.track.info.thumbnailURL)
-      .addFields([{ name, value }])
+      .setThumbnail(playlistInfo.thumbnailURL)
+      .addFields([{ name: 'Плейлист добвален в очередь', value }])
+
+    return embed
+  }
+
+  enqueueTrack(track: DiscordTrack) {
+    const value = `[${track.info.title}](${track.info.uri})`
+    const embed = new EmbedBuilder()
+      .setColor('Blue')
+      .setThumbnail(track.info.thumbnailURL)
+      .addFields([{ name: 'Трек добвален в очередь', value }])
 
     return embed
   }
