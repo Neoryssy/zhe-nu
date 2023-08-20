@@ -26,6 +26,7 @@ export class DiscordTrack implements Track {
     length: number
     isStream: boolean
     position: number
+    thumbnailURL: string
     title: string
     uri: string
     sourceName: string
@@ -33,9 +34,10 @@ export class DiscordTrack implements Track {
   requester: User
 
   constructor(options: IDiscordTrack) {
-    this.track = options.track
-    this.info = options.info
+    const thumbnailURL = `https://img.youtube.com/vi/${options.info.identifier}/0.jpg`
+    this.info = { ...options.info, thumbnailURL }
     this.requester = options.requester
+    this.track = options.track
   }
 }
 
