@@ -1,5 +1,6 @@
 import {
   ApplicationCommandOptionType,
+  EmbedBuilder,
   Guild,
   GuildMember,
   TextBasedChannel,
@@ -7,6 +8,7 @@ import {
 import { Command } from '../../structures/Command'
 import { DiscordTrack } from '../../structures/Dispatcher'
 import { isValidURL } from '../../utils/URL'
+import EmbedBlueprint from '../../structures/EmbedBlueprint'
 
 module.exports = new Command({
   name: 'play',
@@ -33,7 +35,10 @@ module.exports = new Command({
       let dispatcher = client.subsription.get(guild.id)
       if (!dispatcher) {
         if (!voice) {
-          ctx.sendMessage('Необходимо находиться в голосовом канале')
+          const embed = new EmbedBlueprint(client).warn(
+            'Необходимо находиться в голосовом канале'
+          )
+          ctx.sendMessage({ embeds: [embed] })
           return
         } else {
           dispatcher = await client.subsription.create(guild, channel, voice)
@@ -42,28 +47,36 @@ module.exports = new Command({
 
       switch (res?.loadType) {
         case 'LOAD_FAILED': {
-          ctx.sendMessage('Произошла ошибка во время поиска трека')
+          const embed = new EmbedBlueprint(client).error(
+            'Произошла ошибка во время поиска трека'
+          )
+          ctx.sendMessage({ embeds: [embed] })
           return
         }
         case 'NO_MATCHES': {
-          ctx.sendMessage('Ничего не найдено')
+          const embed = new EmbedBlueprint(client).message('Ничего не найдено')
+          ctx.sendMessage({ embeds: [embed] })
           return
         }
         case 'PLAYLIST_LOADED': {
-          res.tracks.forEach((t) => {
-            const content = isValidURL(args[0])
-              ? `Плейлист добавлен в очередь: [${res.playlistInfo.name}](${args[0]})`
-              : `${res.tracks.length} треков добавлено в очередь`
+          let embed: EmbedBuilder | null = null
+          res.tracks.forEach((t, i) => {
             const track = new DiscordTrack({
               track: t.track,
               info: t.info,
               requester: ctx.author,
             })
+            if (i === 0) {
+              embed = new EmbedBlueprint(client).enqueuePlaylist({
+                thumbnailURL: track.info.thumbnailURL,
+                title: res.playlistInfo.name!,
+                url: args[0],
+              })
+            }
             dispatcher?.enqueue(track)
-            ctx.sendMessage({
-              content,
-            })
           })
+          
+          ctx.sendMessage({ embeds: [embed] })
           break
         }
         case 'TRACK_LOADED':
@@ -74,9 +87,9 @@ module.exports = new Command({
             requester: ctx.author,
           })
           dispatcher?.enqueue(track)
-          ctx.sendMessage({
-            content: `Трек добавлен в очередь: [${track.info.title}](${track.info.uri})`,
-          })
+
+          const embed = new EmbedBlueprint(client).enqueueTrack(track)
+          ctx.sendMessage({ embeds: [embed] })
           break
         }
       }
@@ -84,7 +97,10 @@ module.exports = new Command({
       await dispatcher?.tryPlay()
     } catch (error) {
       client.log.error(error)
-      ctx.sendMessage('Произошла ошибка во время выполнения команды')
+      const embed = new EmbedBlueprint(client).error(
+        'Произошла ошибка во время выполнения команды'
+      )
+      ctx.sendMessage({ embeds: [embed] })
     }
   },
 })
