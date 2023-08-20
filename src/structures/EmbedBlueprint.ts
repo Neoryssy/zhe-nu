@@ -34,6 +34,16 @@ export default class EmbedBlueprint {
     return embed
   }
 
+  error(message: string) {
+    const embed = new EmbedBuilder().setColor('Red').setDescription(message)
+    return embed
+  }
+
+  message(message: string) {
+    const embed = new EmbedBuilder().setColor('Blue').setDescription(message)
+    return embed
+  }
+
   nowPlaying(track: DiscordTrack) {
     const value = `[${track.info.title}](${track.info.uri})`
     const embed = new EmbedBuilder()
@@ -41,6 +51,11 @@ export default class EmbedBlueprint {
       .setThumbnail(track.info.thumbnailURL)
       .addFields([{ name: 'Сейчас играет', value }])
 
+    return embed
+  }
+
+  warn(message: string) {
+    const embed = new EmbedBuilder().setColor('Yellow').setDescription(message)
     return embed
   }
 }
