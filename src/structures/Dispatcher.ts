@@ -1,6 +1,7 @@
 import { Player, Track, TrackEndReason } from 'shoukaku'
 import DiscordMusicBot from './DiscordMusicBot'
 import { Guild, TextBasedChannel, User, VoiceBasedChannel } from 'discord.js'
+import EmbedBlueprint from './EmbedBlueprint'
 export interface IDiscordTrack {
   track: string
   info: {
@@ -65,16 +66,22 @@ export default class Dispatcher {
     this._queue = []
     this._current = null
 
+    this._player.on('closed', (reason) => {
+      console.log(reason)
+    })
     this._player.on('end', async (event) => {
       this._current = null
-      console.log(event)
-
-      if ((event.reason === 'FINISHED')) {
+      if (event.reason === 'FINISHED') {
         await this.tryPlay()
       }
     })
-    this._player.on('closed', (reason) => {
-      console.log(reason)
+    this._player.on('start', (event) => {
+      if (!this._current) return
+      const channel = this._client.channels.cache.get(
+        this._channelId
+      ) as TextBasedChannel
+      const embed = new EmbedBlueprint(this._client).nowPlaying(this._current)
+      channel.send({ embeds: [embed] })
     })
   }
 
