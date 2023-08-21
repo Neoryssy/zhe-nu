@@ -147,6 +147,7 @@ export default class Dispatcher {
 
   stop() {
     this._player.stopTrack()
+    this._queue = []
   }
 
   async tryPlay() {
