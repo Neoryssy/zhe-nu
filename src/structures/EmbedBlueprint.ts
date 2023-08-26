@@ -30,7 +30,7 @@ export default class EmbedBlueprint {
     const embed = new EmbedBuilder()
       .setColor('Blue')
       .setThumbnail(playlistInfo.thumbnailURL)
-      .addFields([{ name: 'Плейлист добвален в очередь', value }])
+      .addFields([{ name: 'Плейлист добавлен в очередь', value }])
 
     return embed
   }
@@ -40,7 +40,7 @@ export default class EmbedBlueprint {
     const embed = new EmbedBuilder()
       .setColor('Blue')
       .setThumbnail(track.info.thumbnailURL)
-      .addFields([{ name: 'Трек добвален в очередь', value }])
+      .addFields([{ name: 'Трек добавлен в очередь', value }])
 
     return embed
   }
