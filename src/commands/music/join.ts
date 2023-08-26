@@ -40,7 +40,7 @@ module.exports = new Command({
         return
       }
 
-      let dispatcher = client.subsription.get(guild.id)
+      let dispatcher = client.subscription.get(guild.id)
       if (dispatcher) {
         await ctx.sendMessage({
           content: 'Я уже нахожусь в голосовом канале!',
@@ -50,7 +50,7 @@ module.exports = new Command({
         await ctx.sendMessage({
           content: 'Присоединяюсь к голосовому каналу...',
         })
-        dispatcher = await client.subsription.create(guild, channel, voice)
+        dispatcher = await client.subscription.create(guild, channel, voice)
         await ctx.editMessage({
           content: `Я присоединился к голосовому каналу ${voice}!`,
         })

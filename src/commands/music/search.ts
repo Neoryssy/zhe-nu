@@ -26,7 +26,7 @@ module.exports = new Command({
     try {
       let msg: InteractionResponse
       const query = args.join(' ')
-      const res = await client.subsription.search(query)
+      const res = await client.subscription.search(query)
       const row = new ActionRowBuilder()
       const select = new StringSelectMenuBuilder()
 

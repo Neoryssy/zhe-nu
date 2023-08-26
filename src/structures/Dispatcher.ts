@@ -67,7 +67,7 @@ export default class Dispatcher {
     this._current = null
 
     this._player.on('closed', (reason) => {
-      console.log(reason)
+      // console.log(reason)
     })
     this._player.on('end', async (event) => {
       this._current = null
@@ -113,7 +113,7 @@ export default class Dispatcher {
   destroy() {
     this._player.connection.disconnect()
     this._queue = []
-    this._client.subsription.delete(this._guildId)
+    this._client.subscription.delete(this._guildId)
   }
 
   enqueue(track: DiscordTrack) {

@@ -30,9 +30,9 @@ module.exports = new Command({
       const guild = ctx.guild as Guild
       const member = ctx.member as GuildMember
       const query = args.join(' ')
-      const res = await client.subsription.search(query)
+      const res = await client.subscription.search(query)
       const voice = member.voice.channel
-      let dispatcher = client.subsription.get(guild.id)
+      let dispatcher = client.subscription.get(guild.id)
       if (!dispatcher) {
         if (!voice) {
           const embed = new EmbedBlueprint(client).warn(
@@ -41,7 +41,7 @@ module.exports = new Command({
           ctx.sendMessage({ embeds: [embed] })
           return
         } else {
-          dispatcher = await client.subsription.create(guild, channel, voice)
+          dispatcher = await client.subscription.create(guild, channel, voice)
         }
       }
 
@@ -75,7 +75,7 @@ module.exports = new Command({
             }
             dispatcher?.enqueue(track)
           })
-          
+
           ctx.sendMessage({ embeds: [embed] })
           break
         }

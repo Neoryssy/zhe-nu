@@ -14,7 +14,7 @@ export default class DiscordMusicBot extends Client {
   private _config: BotConfig
   private _log: Logger
   private _manager?: Shoukaku
-  private _subsription: Subscription
+  private _subscription: Subscription
 
   constructor(options: ClientOptions) {
     super(options)
@@ -22,7 +22,7 @@ export default class DiscordMusicBot extends Client {
     this._commands = new Collection()
     this._config = new BotConfig(this)
     this._log = new Logger(this._config.logger)
-    this._subsription = new Subscription(this)
+    this._subscription = new Subscription(this)
 
     this.loadCommands()
     this.loadEvents()
@@ -40,8 +40,8 @@ export default class DiscordMusicBot extends Client {
   get manager(): Shoukaku | undefined {
     return this._manager
   }
-  get subsription() {
-    return this._subsription
+  get subscription() {
+    return this._subscription
   }
 
   async build() {

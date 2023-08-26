@@ -1,15 +1,15 @@
-import { Guild } from "discord.js";
-import { Command } from "../../structures/Command";
+import { Guild } from 'discord.js'
+import { Command } from '../../structures/Command'
 
 module.exports = new Command({
   name: 'unpause',
   description: 'Unpauses the music',
   slashCommand: {
-    enabled: true
+    enabled: true,
   },
   async executor(client, ctx, args) {
     const guild = ctx.guild as Guild
-    const dispatcher = client.subsription.get(guild.id)
+    const dispatcher = client.subscription.get(guild.id)
     if (!dispatcher || !dispatcher.current) {
       ctx.sendMessage({
         content: 'Я сейчас не проигрываю музыку',

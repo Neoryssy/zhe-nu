@@ -9,7 +9,7 @@ module.exports = new Command({
   },
   async executor(client, ctx, args) {
     const guild = ctx.guild as Guild
-    const dispather = client.subsription.get(guild.id)
+    const dispather = client.subscription.get(guild.id)
     const voiceId = dispather?.voiceId
 
     try {
