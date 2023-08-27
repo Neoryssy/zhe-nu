@@ -1,6 +1,5 @@
 import { Events, VoiceState } from 'discord.js'
 import CEvent from '../../structures/CEvent'
-import Dispatcher from '../../structures/Dispatcher'
 
 module.exports = new CEvent({
   name: Events.VoiceStateUpdate,
@@ -8,7 +7,7 @@ module.exports = new CEvent({
     const guildId = oldState.guild.id
     const dispatcher = client.subscription.get(guildId)
 
-    if (!dispatcher) {
+    if (oldState.member?.user.id !== client.user?.id || !dispatcher) {
       return
     }
 
