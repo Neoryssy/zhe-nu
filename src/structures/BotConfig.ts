@@ -26,6 +26,7 @@ export default class BotConfig {
   logger: ILoggerConfig
   defaultPrefix: string
   defaultVolume: number
+  leaveDelay: number
   '24/7': boolean
   token: string
   website: string
@@ -67,6 +68,7 @@ export default class BotConfig {
         : (process.env.DISCORD_TOKEN as string)
       this.defaultPrefix = config.defaultPrefix
       this.defaultVolume = config.defaultVolume || 100
+      this.leaveDelay = config.leaveDelay || 600000
       this['24/7'] = config['24/7'] || false
       this.website = config.website || 'https://example.com'
     } catch (error) {
