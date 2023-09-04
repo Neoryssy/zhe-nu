@@ -1,7 +1,8 @@
-import { Player, Track, TrackEndReason } from 'shoukaku'
+import { Player, Track } from 'shoukaku'
 import DiscordMusicBot from './DiscordMusicBot'
-import { Guild, TextBasedChannel, User, VoiceBasedChannel } from 'discord.js'
+import { TextBasedChannel, User, VoiceBasedChannel } from 'discord.js'
 import EmbedBlueprint from './EmbedBlueprint'
+import Timer from '../utils/Timer'
 export interface IDiscordTrack {
   track: string
   info: {
@@ -57,6 +58,7 @@ export default class Dispatcher {
   private _player: Player
   private _queue: DiscordTrack[]
   private _current: DiscordTrack | null
+  private _timer: Timer
 
   constructor(options: IDispatcherOptions) {
     this._client = options.client
@@ -65,6 +67,7 @@ export default class Dispatcher {
     this._player = options.player
     this._queue = []
     this._current = null
+    this._timer = new Timer()
 
     this._player.on('closed', (reason) => {
       // console.log(reason)
@@ -108,6 +111,9 @@ export default class Dispatcher {
   }
   get queue() {
     return this._queue
+  }
+  get timer() {
+    return this._timer
   }
 
   destroy() {
