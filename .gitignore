@@ -7,6 +7,9 @@ logs/
 *.log
 *.log.*.gz
 
+# Database files
+db/
+
 # Optional npm cache directory
 .npm
 
