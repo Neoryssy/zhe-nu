@@ -1,6 +1,7 @@
 import { Events, VoiceBasedChannel, VoiceState } from 'discord.js'
 import CEvent from '../../../structures/CEvent'
 import DiscordMusicBot from '../../../structures/DiscordMusicBot'
+import { VoiceStateSocketEmitter } from '../../../server/sockets/emitters/voiceState.emitter'
 
 const connectedToClientChannel = (
   client: DiscordMusicBot,
@@ -36,15 +37,17 @@ module.exports = new CEvent({
     const isClient = oldState.member?.user.id === client.user?.id
     const leaveDelay = client.config.leaveDelay
 
-    if (!dispatcher) {
-      return
-    }
-
     if (isClient) {
+      VoiceStateSocketEmitter.emitVoiceState(guildId)
+
       if (newState.channel === null) {
-        dispatcher.destroy()
+        dispatcher?.destroy()
       }
     } else {
+      if (!dispatcher) {
+        return
+      }
+      
       if (connectedToClientChannel(client, newState)) {
         dispatcher.timer.stop()
       }
