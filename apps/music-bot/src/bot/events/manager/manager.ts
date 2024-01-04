@@ -1,4 +1,4 @@
-import DiscordMusicBot from '../../structures/DiscordMusicBot'
+import DiscordMusicBot from '../../../structures/DiscordMusicBot'
 
 export default async (client: DiscordMusicBot) => {
   try {

@@ -7,9 +7,9 @@ import {
   TextChannel,
   VoiceBasedChannel,
 } from 'discord.js'
-import { Command } from '../../structures/Command'
-import Context from '../../structures/Context'
-import DiscordMusicBot from '../../structures/DiscordMusicBot'
+import { Command } from '../../../structures/Command'
+import Context from '../../../structures/Context'
+import DiscordMusicBot from '../../../structures/DiscordMusicBot'
 
 module.exports = new Command({
   name: 'join',

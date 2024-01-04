@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
-import { Command } from '../../structures/Command'
+import { Command } from '../../../structures/Command'
 
 module.exports = new Command({
   name: 'ping',

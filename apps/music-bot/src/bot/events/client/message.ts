@@ -1,7 +1,7 @@
 import { ChannelType, Events, Message } from 'discord.js'
-import DiscordMusicBot from '../../structures/DiscordMusicBot'
-import CEvent from '../../structures/CEvent'
-import Context from '../../structures/Context'
+import DiscordMusicBot from '../../../structures/DiscordMusicBot'
+import CEvent from '../../../structures/CEvent'
+import Context from '../../../structures/Context'
 
 module.exports = new CEvent({
   name: Events.MessageCreate,

@@ -1,6 +1,6 @@
 import { Events, Guild } from 'discord.js'
-import CEvent from '../../structures/CEvent'
-import SlashCommandsManager from '../../utils/SlashCommandsManager'
+import CEvent from '../../../structures/CEvent'
+import SlashCommandsManager from '../../../utils/SlashCommandsManager'
 
 module.exports = new CEvent({
   name: Events.GuildCreate,

@@ -1,9 +1,9 @@
 import { Guild } from 'discord.js'
-import { Command } from '../../structures/Command'
+import { Command } from '../../../structures/Command'
 
 module.exports = new Command({
-  name: 'stop',
-  description: 'Stop playing music',
+  name: 'skip',
+  description: 'Skip track',
   slashCommand: {
     enabled: true,
   },
@@ -17,9 +17,9 @@ module.exports = new Command({
       return
     }
 
-    dispatcher.stop()
+    dispatcher.skip()
     ctx.sendMessage({
-      content: 'Я остановил воспроизведение музыки',
+      content: 'Я пропустил трек',
     })
   },
 })

@@ -13,7 +13,7 @@ export default class SlashCommandsManager {
     this._commands = new Collection()
 
     const ext = client.config.dev ? '.ts' : '.js'
-    const foldersPath = path.join(__dirname, '..', 'commands')
+    const foldersPath = path.join(__dirname, '..', 'bot', 'commands')
     const commandFolders = fs.readdirSync(foldersPath) as string[]
 
     for (const folder of commandFolders) {

@@ -1,6 +1,6 @@
 import { Events, VoiceBasedChannel, VoiceState } from 'discord.js'
-import CEvent from '../../structures/CEvent'
-import DiscordMusicBot from '../../structures/DiscordMusicBot'
+import CEvent from '../../../structures/CEvent'
+import DiscordMusicBot from '../../../structures/DiscordMusicBot'
 
 const connectedToClientChannel = (
   client: DiscordMusicBot,

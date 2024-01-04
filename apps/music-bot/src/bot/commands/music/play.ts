@@ -5,10 +5,10 @@ import {
   GuildMember,
   TextBasedChannel,
 } from 'discord.js'
-import { Command } from '../../structures/Command'
-import { DiscordTrack } from '../../structures/Dispatcher'
-import { isValidURL } from '../../utils/URL'
-import EmbedBlueprint from '../../structures/EmbedBlueprint'
+import { Command } from '../../../structures/Command'
+import { DiscordTrack } from '../../../structures/Dispatcher'
+import { isValidURL } from '../../../utils/URL'
+import EmbedBlueprint from '../../../structures/EmbedBlueprint'
 
 module.exports = new Command({
   name: 'play',

@@ -1,6 +1,6 @@
 import { Guild } from 'discord.js'
-import { Command } from '../../structures/Command'
-import EmbedBlueprint from '../../structures/EmbedBlueprint'
+import { Command } from '../../../structures/Command'
+import EmbedBlueprint from '../../../structures/EmbedBlueprint'
 
 module.exports = new Command({
   name: 'queue',

@@ -4,8 +4,8 @@ import { Client, ClientOptions, Collection } from 'discord.js'
 import { Command } from './Command'
 import BotConfig from './BotConfig'
 import Logger from './Logger'
-import { Connectors, Shoukaku, ShoukakuOptions } from 'shoukaku'
-import assignManagerEvents from '../events/manager/manager'
+import { Connectors, Shoukaku } from 'shoukaku'
+import assignManagerEvents from '../bot/events/manager/manager'
 import СEvent from './CEvent'
 import Subscription from './Subscription'
 
@@ -66,7 +66,7 @@ export default class DiscordMusicBot extends Client {
     this._log.info('Loading events...')
 
     const ext = this._config.dev ? '.ts' : '.js'
-    const eventsPath = path.join(__dirname, '..', 'events', 'client')
+    const eventsPath = path.join(__dirname, '..', 'bot', 'events', 'client')
     const eventFiles = fs
       .readdirSync(eventsPath)
       .filter((file) => file.endsWith(ext)) as string[]
@@ -93,7 +93,7 @@ export default class DiscordMusicBot extends Client {
       this._log.info('Loading commands...')
 
       const ext = this._config.dev ? '.ts' : '.js'
-      const foldersPath = path.join(__dirname, '..', 'commands')
+      const foldersPath = path.join(__dirname, '..', 'bot', 'commands')
       const commandFolders = fs.readdirSync(foldersPath) as string[]
 
       for (const folder of commandFolders) {

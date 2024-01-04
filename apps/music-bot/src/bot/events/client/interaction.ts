@@ -1,7 +1,7 @@
 import { BaseInteraction, Events, Interaction } from 'discord.js'
-import DiscordMusicBot from '../../structures/DiscordMusicBot'
-import CEvent from '../../structures/CEvent'
-import Context from '../../structures/Context'
+import DiscordMusicBot from '../../../structures/DiscordMusicBot'
+import CEvent from '../../../structures/CEvent'
+import Context from '../../../structures/Context'
 
 module.exports = new CEvent({
   name: Events.InteractionCreate,
