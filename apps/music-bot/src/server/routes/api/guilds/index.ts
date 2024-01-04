@@ -23,16 +23,14 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/channels', async (req, res) => {
   try {
-    const { type } = req.body
+    const type = req.query.type as any
     const guild = await discordClient.guilds.cache.get(req.params.id)
 
     if (!guild) {
       return res.status(404).json({ message: 'Guild not found' })
     }
 
-    const voiceChannels = guild.channels.cache.filter((c) =>
-      typeof type === 'number' ? c.type === type : true
-    )
+    const voiceChannels = guild.channels.cache.filter((c) => c.type == type)
 
     return res.status(200).json(voiceChannels)
   } catch (error) {
