@@ -3,24 +3,14 @@ import DiscordMusicBot from './DiscordMusicBot'
 import { TextBasedChannel, User, VoiceBasedChannel } from 'discord.js'
 import EmbedBlueprint from './EmbedBlueprint'
 import Timer from '../utils/Timer'
+import { QueueSocketEmitter } from '../server/sockets/emitters/queue.emitter'
+import { PlayerSocketEmitter } from '../server/sockets/emitters/player.emitter'
 
-export interface IDiscordTrack {
-  track: string
-  info: {
-    identifier: string
-    isSeekable: boolean
-    author: string
-    length: number
-    isStream: boolean
-    position: number
-    title: string
-    uri: string
-    sourceName: string
-  }
+export interface IDiscordTrack extends Track {
   requester: User
 }
 
-export class DiscordTrack implements Track {
+export class DiscordTrack implements IDiscordTrack {
   track: string
   info: {
     identifier: string
@@ -70,22 +60,28 @@ export default class Dispatcher {
     this._current = null
     this._timer = new Timer()
 
-    this._player.on('closed', (reason) => {
-      // console.log(reason)
+    this._player.on('update', ({ state }) => {
+      PlayerSocketEmitter.emitPlayerPosition(this._guildId)
     })
     this._player.on('end', async (event) => {
       this._current = null
+      this._player.position = 0
+
       if (event.reason === 'FINISHED') {
         await this.tryPlay()
       }
+
+      PlayerSocketEmitter.emitPlayer(this._guildId)
     })
-    this._player.on('start', (event) => {
+    this._player.on('start', (_) => {
       if (!this._current) return
       const channel = this._client.channels.cache.get(
         this._channelId
       ) as TextBasedChannel
       const embed = new EmbedBlueprint(this._client).nowPlaying(this._current)
       channel.send({ embeds: [embed] })
+
+      PlayerSocketEmitter.emitPlayer(this._guildId)
     })
   }
 
@@ -129,12 +125,14 @@ export default class Dispatcher {
 
   destroy() {
     this._player.connection.disconnect()
-    this._queue = []
+    this.setQueue([])
     this._client.subscription.delete(this._guildId)
+
+    PlayerSocketEmitter.emitPlayer(this._guildId)
   }
 
   enqueue(track: DiscordTrack) {
-    this._queue.push(track)
+    this.setQueue([...this._queue, track])
   }
 
   async join(voice: VoiceBasedChannel) {
@@ -161,6 +159,11 @@ export default class Dispatcher {
     this._player.seekTo(position)
   }
 
+  private setQueue(queue: DiscordTrack[]) {
+    this._queue = queue
+    QueueSocketEmitter.emitQueue(this._guildId)
+  }
+
   skip() {
     if (!this._current) return
     const position = this._current.info.length
@@ -169,7 +172,7 @@ export default class Dispatcher {
 
   stop() {
     this._player.stopTrack()
-    this._queue = []
+    this.setQueue([])
   }
 
   async tryPlay() {
@@ -180,9 +183,12 @@ export default class Dispatcher {
     }
     if (this._current) return
 
-    const track = this._queue.shift() as DiscordTrack
+    const queue = [...this._queue]
+    const track = queue.shift() as DiscordTrack
     await this._player.playTrack(track)
     this._current = track
+
+    this.setQueue(queue)
   }
 
   unpause() {
