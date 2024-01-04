@@ -1,7 +1,7 @@
 import { Events } from 'discord.js'
 import DiscordMusicBot from '../../../structures/DiscordMusicBot'
 import CEvent from '../../../structures/CEvent'
-import SlashCommandsManager from '../../../utils/SlashCommandsManager'
+import SlashCommandsManager from '../../../structures/SlashCommandsManager'
 
 module.exports = new CEvent({
   name: Events.ClientReady,

@@ -1,8 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { ApplicationCommandData, ApplicationCommandDataResolvable, Collection, Guild } from 'discord.js'
-import DiscordMusicBot from '../structures/DiscordMusicBot'
-import { Command } from '../structures/Command'
+import {
+  ApplicationCommandData,
+  ApplicationCommandDataResolvable,
+  Collection,
+  Guild,
+} from 'discord.js'
+import DiscordMusicBot from './DiscordMusicBot'
+import { Command } from './Command'
 
 export default class SlashCommandsManager {
   private _client: DiscordMusicBot
