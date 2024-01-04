@@ -88,20 +88,24 @@ export default class Dispatcher {
     })
   }
 
+  get channelId() {
+    return this._channelId
+  }
   get client() {
     return this._client
   }
   get current() {
     return this._current
   }
+  get duration() {
+    if (!this._current) return 0
+    return this._current.info.length
+  }
   get guildId() {
     return this._guildId
   }
-  get channelId() {
-    return this._channelId
-  }
-  get voiceId() {
-    return this._player.connection.channelId
+  get isPlaying() {
+    return !this._player.paused
   }
   get paused() {
     return this._player.paused
@@ -109,11 +113,17 @@ export default class Dispatcher {
   get player() {
     return this._player
   }
+  get position() {
+    return this._player.position
+  }
   get queue() {
     return this._queue
   }
   get timer() {
     return this._timer
+  }
+  get voiceId() {
+    return this._player.connection.channelId
   }
 
   destroy() {
