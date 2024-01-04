@@ -3,6 +3,7 @@ import DiscordMusicBot from './DiscordMusicBot'
 import { TextBasedChannel, User, VoiceBasedChannel } from 'discord.js'
 import EmbedBlueprint from './EmbedBlueprint'
 import Timer from '../utils/Timer'
+
 export interface IDiscordTrack {
   track: string
   info: {
@@ -153,6 +154,11 @@ export default class Dispatcher {
     if (this.paused) return
 
     return this._player.setPaused(true)
+  }
+
+  seek(position: number) {
+    if (!this._current) return
+    this._player.seekTo(position)
   }
 
   skip() {
