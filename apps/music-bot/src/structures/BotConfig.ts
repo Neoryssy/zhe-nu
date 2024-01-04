@@ -39,10 +39,8 @@ export default class BotConfig {
       const fPath = path.join(__dirname, '..', '..', 'config.json')
       const config = JSON.parse(fs.readFileSync(fPath).toString())
 
-
       this.validateConfig(config)
       this.dev = !!config.dev
-      this.validateENV()
 
       this.lavalink = {
         node: {
@@ -63,9 +61,7 @@ export default class BotConfig {
         maxLogSize: config.logger.maxLogSize || 10 * 1024 * 1024, // 10 MB
       }
 
-      this.token = this.dev
-        ? (process.env.DISCORD_DEV_TOKEN as string)
-        : (process.env.DISCORD_TOKEN as string)
+      this.token = process.env.DISCORD_TOKEN!
       this.defaultPrefix = config.defaultPrefix
       this.defaultVolume = config.defaultVolume || 100
       this.leaveDelay = config.leaveDelay || 600000
@@ -82,18 +78,6 @@ export default class BotConfig {
     try {
       if (!config.defaultPrefix)
         throw new Error('Missing defaultPrefix in config.json')
-    } catch (error) {
-      console.log(error)
-      process.exit(1)
-    }
-  }
-  validateENV() {
-    try {
-      if (this.dev && !process.env.DISCORD_DEV_TOKEN)
-        throw new Error('Missing DISCORD_DEV_TOKEN in .env')
-      else if (!this.dev && !process.env.DISCORD_TOKEN) {
-        throw new Error('Missing DISCORD_TOKEN in .env')
-      }
     } catch (error) {
       console.log(error)
       process.exit(1)
