@@ -8,15 +8,21 @@ router.post('/:id/enqueue', async (req, res) => {
   try {
     const body = req.body as IDiscordTrack & { userId: string }
     const guildId = req.params.id
-    const user = await discordClient.users.fetch(body.userId)
+    const guild = discordClient.guilds.cache.get(guildId)
 
-    if (!user) {
-      return res.status(400).end()
+    if (!guild) {
+      return res.status(404).json({ message: 'Guild not found' })
+    }
+
+    const member = await guild.members.fetch(body.userId)
+
+    if (!member) {
+      return res.status(404).json({ message: 'Guild member not found' })
     }
 
     const track = new DiscordTrack({
       ...body,
-      requester: user,
+      requester: member,
     })
 
     const dispatcher = discordClient.subscription.get(guildId)
