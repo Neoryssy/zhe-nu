@@ -64,7 +64,7 @@ module.exports = new Command({
             const track = new DiscordTrack({
               track: t.track,
               info: t.info,
-              requester: ctx.author,
+              requester: ctx.member as GuildMember,
             })
             if (i === 0) {
               embed = new EmbedBlueprint(client).enqueuePlaylist({
@@ -84,7 +84,7 @@ module.exports = new Command({
           const track = new DiscordTrack({
             track: res.tracks[0].track,
             info: res.tracks[0].info,
-            requester: ctx.author,
+            requester: ctx.member as GuildMember,
           })
           dispatcher?.enqueue(track)
 
