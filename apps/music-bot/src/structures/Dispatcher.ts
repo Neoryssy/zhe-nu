@@ -1,13 +1,13 @@
 import { Player, Track } from 'shoukaku'
 import DiscordMusicBot from './DiscordMusicBot'
-import { TextBasedChannel, User, VoiceBasedChannel } from 'discord.js'
+import { GuildMember, TextBasedChannel, VoiceBasedChannel } from 'discord.js'
 import EmbedBlueprint from './EmbedBlueprint'
 import Timer from '../utils/Timer'
 import { QueueSocketEmitter } from '../server/sockets/emitters/queue.emitter'
 import { PlayerSocketEmitter } from '../server/sockets/emitters/player.emitter'
 
 export interface IDiscordTrack extends Track {
-  requester: User
+  requester: GuildMember
 }
 
 export class DiscordTrack implements IDiscordTrack {
@@ -24,7 +24,7 @@ export class DiscordTrack implements IDiscordTrack {
     uri: string
     sourceName: string
   }
-  requester: User
+  requester: GuildMember
 
   constructor(options: IDiscordTrack) {
     const thumbnailURL = `https://img.youtube.com/vi/${options.info.identifier}/0.jpg`
