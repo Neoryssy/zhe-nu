@@ -42,7 +42,6 @@ module.exports = new CEvent({
         })
       }
     } catch (error) {
-      console.log(this)
       client.log.error(error)
     }
   },

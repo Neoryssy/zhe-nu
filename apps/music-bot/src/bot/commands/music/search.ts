@@ -35,7 +35,7 @@ module.exports = new Command({
           content: 'Произошла ошибка во время поиска',
         })
       }
-      console.log(res)
+
       switch (res?.loadType) {
         case 'LOAD_FAILED': {
           ctx.sendMessage({
