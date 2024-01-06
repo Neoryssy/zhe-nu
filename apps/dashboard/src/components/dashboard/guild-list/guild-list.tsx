@@ -11,7 +11,7 @@ const GuildList = ({ clientGuilds, userGuilds }: GuildListProps) => {
 
   const handleAddGuild = (guildId: string) => {
     window.open(
-      `https://discord.com/oauth2/authorize?scope=bot+applications.commands&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_API_URL}/callback/guild-oauth&permissions=3147792&client_id=895805901833904179&guild_id=${guildId}`,
+      `https://discord.com/oauth2/authorize?scope=bot+applications.commands&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_API_URL}/callback/guild-oauth&permissions=3147792&client_id=${process.env.NEXT_PUBLIC_DISCORD_ID}&guild_id=${guildId}`,
       '_blank',
       'location=yes,height=650,width=520,scrollbars=yes,status=yes'
     )
