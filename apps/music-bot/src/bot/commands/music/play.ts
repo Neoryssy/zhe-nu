@@ -41,7 +41,7 @@ module.exports = new Command({
           ctx.sendMessage({ embeds: [embed] })
           return
         } else {
-          dispatcher = await client.subscription.create(guild, channel, voice)
+          dispatcher = await client.subscription.create(guild, voice)
         }
       }
 

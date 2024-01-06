@@ -19,7 +19,7 @@ export const voiceStateListeners = (socket: Socket) => {
     const dispatcher = discordClient.subscription.get(guildId)
 
     if (!dispatcher) {
-      discordClient.subscription.create(guild, channel, voiceChannel)
+      discordClient.subscription.create(guild, voiceChannel)
     } else {
       dispatcher.join(voiceChannel)
     }

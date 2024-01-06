@@ -2,6 +2,7 @@ import { Guild, TextBasedChannel, VoiceBasedChannel } from 'discord.js'
 import DiscordMusicBot from './DiscordMusicBot'
 import Dispatcher from './Dispatcher'
 import { isValidURL } from '../utils/URL'
+import { GuildModel } from '../server/models/guild.model'
 
 export default class Subscription extends Map<string, Dispatcher> {
   private _client: DiscordMusicBot
@@ -13,10 +14,17 @@ export default class Subscription extends Map<string, Dispatcher> {
 
   async create(
     guild: Guild,
-    channel: TextBasedChannel,
-    voice: VoiceBasedChannel
+    voice: VoiceBasedChannel,
+    channel?: TextBasedChannel
   ) {
     try {
+      if (!channel) {
+        const guildDocument = await GuildModel.findOne({ guildId: guild.id })
+        const channelId = guildDocument?.musicChannelId as string
+        
+        channel = guild.channels.cache.get(channelId) as TextBasedChannel
+      }
+
       let dispatcher = this.get(guild.id)
       if (!dispatcher) {
         const node = this._client.manager?.getNode()
