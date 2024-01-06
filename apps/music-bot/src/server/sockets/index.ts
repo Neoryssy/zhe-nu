@@ -7,7 +7,7 @@ import { queueListeners } from './listeners/queue.listeners'
 export const initializeServerIO = (httpServer: NetServer) => {
   const serverIO = new ServerIO(httpServer, {
     cors: {
-      origin: 'http://localhost:8080',
+      // origin: 'http://localhost:8080',
     },
     path: '/api/socket/io',
     addTrailingSlash: false,
