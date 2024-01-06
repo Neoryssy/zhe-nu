@@ -10,4 +10,4 @@ const guildSchema = new Schema<IGuild>({
   musicChannelId: String,
 })
 
-export default model<IGuild>('Guild', guildSchema)
+export const GuildModel = model<IGuild>('Guild', guildSchema)

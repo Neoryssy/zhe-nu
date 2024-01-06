@@ -1,6 +1,6 @@
 import { ChannelType, Events, GuildChannel, TextChannel } from 'discord.js'
 import CEvent from '../../../structures/CEvent'
-import GuildModel from '../../../server/models/guild.model'
+import { GuildModel } from '../../../server/models/guild.model'
 
 module.exports = new CEvent({
   name: Events.ChannelDelete,

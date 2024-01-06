@@ -1,7 +1,7 @@
 import { ChannelType, Events, Guild, TextChannel } from 'discord.js'
 import CEvent from '../../../structures/CEvent'
 import SlashCommandsManager from '../../../structures/SlashCommandsManager'
-import GuildModel from '../../../server/models/guild.model'
+import { GuildModel } from '../../../server/models/guild.model'
 
 module.exports = new CEvent({
   name: Events.GuildCreate,
