@@ -32,8 +32,13 @@ const MainPage = () => {
       <div />
 
       <div className="flex flex-col items-center space-y-5">
-        <h1 className="font-bold text-9xl">Zhe_nU</h1>
+        <div className='relative'>
+          <h1 className="font-bold text-9xl">Zhe_nU</h1>
+          <span className='absolute -top-5 -right-14 text-2xl'>Beta</span>
+        </div>
+
         <h3 className="text-3xl">Музыкальный бот</h3>
+        
         <div className="flex justify-center">
           {isLoading ? (
             <button
