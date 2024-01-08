@@ -90,7 +90,7 @@ const RightSidebar = ({ guildId }: RightSidebarProps) => {
             <Link href={item.info.uri} target="_blank">
               <img
                 className="max-h-48 object-cover w-full rounded"
-                src={`https://img.youtube.com/vi/${item.info.identifier}/maxresdefault.jpg`}
+                src={`https://img.youtube.com/vi/${item.info.identifier}/hqdefault.jpg`}
                 alt=""
               />
             </Link>
