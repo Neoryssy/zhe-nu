@@ -43,14 +43,14 @@ const PlayerBar = () => {
       <div className="flex justify-center space-x-4 py-3">
         <div className="flex flex-col justify-center">
           <div className="flex items-center w-[40rem] space-x-4">
-            <span>{formattedPosition}</span>
+            <span className="tabular-nums">{formattedPosition}</span>
             <Slider
               value={sliderPosition}
               min={0}
               max={100}
               onChange={(_, value) => seekHandler(value as number)}
             />
-            <span>{formattedDuration}</span>
+            <span className="tabular-nums">{formattedDuration}</span>
           </div>
 
           <div className="flex grid-cols-3 justify-between">
