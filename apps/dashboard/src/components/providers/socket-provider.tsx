@@ -30,7 +30,7 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
-    const socketInstance = ClientIO(process.env.NEXT_PUBLIC_BASE_URL!, {
+    const socketInstance = ClientIO(process.env.NEXT_PUBLIC_SERVER_URL!, {
       path: '/api/socket/io',
       addTrailingSlash: false,
     })
