@@ -1,17 +1,12 @@
 'use client'
 
-import { useGuild } from '@/hooks/use.guild'
-import { useQueueSocket } from '@/hooks/use.queue.socket'
 import { useUser } from '@/hooks/use.user'
 import { DiscordTrack } from '@/types/bot-api'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import axios from 'axios'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-type RightSidebarProps = {
-  guildId: string
-}
 
 type SearchResponse = {
   loadType:
@@ -27,8 +22,9 @@ type SearchResponse = {
   tracks: DiscordTrack[]
 }
 
-const RightSidebar = ({ guildId }: RightSidebarProps) => {
+const RightSidebar = () => {
   const { user } = useUser()
+  const { guildId } = useParams() as { guildId: string }
 
   const [query, setQuery] = useState('')
   const [videos, setVideos] = useState<DiscordTrack[]>([])

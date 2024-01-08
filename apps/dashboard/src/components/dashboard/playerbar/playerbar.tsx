@@ -14,12 +14,15 @@ import {
 import { Shuffle } from '@mui/icons-material'
 import { Slider } from '@mui/material'
 import classNames from 'classnames'
+import { useParams } from 'next/navigation'
 
 type PlayerBarProps = {
   guildId: string
 }
 
-const PlayerBar = ({ guildId }: PlayerBarProps) => {
+const PlayerBar = () => {
+  const { guildId } = useParams() as { guildId: string }
+
   const { player, pause, resume, seek, skip } = usePlayerSocket({
     guildId,
   })

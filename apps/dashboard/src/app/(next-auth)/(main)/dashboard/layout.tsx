@@ -9,28 +9,22 @@ export const metadata: Metadata = {
   description: 'Dashboard',
 }
 
-const GuildIdLayout = ({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: { guildId: string }
-}) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex flex-1 min-h-0">
-        <Sidebar guildId={params.guildId} />
+        <Sidebar />
         <main className="flex-1 flex flex-col">
           <Header />
           <div className="flex-1 flex justify-between min-h-0">
             {children}
-            <RightSidebar guildId={params.guildId} />
+            <RightSidebar />
           </div>
         </main>
       </div>
-      <PlayerBar guildId={params.guildId} />
+      <PlayerBar />
     </div>
   )
 }
 
-export default GuildIdLayout
+export default DashboardLayout

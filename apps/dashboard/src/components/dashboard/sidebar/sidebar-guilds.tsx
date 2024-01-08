@@ -41,6 +41,14 @@ const GuildsListBox = ({ guildId }: GuildsListBoxProps) => {
     fetchGuilds()
   }, [])
 
+  useEffect(() => {
+    const selectedGuild = guilds.find((guild) => guild.id === guildId)
+
+    if (selectedGuild) {
+      setSelectedGuild(selectedGuild)
+    }
+  }, [guildId])
+
   return (
     <Listbox
       value={selectedGuild}

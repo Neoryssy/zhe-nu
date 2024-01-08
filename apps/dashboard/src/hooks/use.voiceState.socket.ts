@@ -41,7 +41,7 @@ export const useVoiceStateSocket = ({ guildId }: VoiceStateSocketProps) => {
       socket.off(`connect`)
       socket.off(`voiceState:${guildId}`)
     }
-  }, [socket])
+  }, [guildId, socket])
 
   return { voiceState, joinChannel, leaveChannel }
 }

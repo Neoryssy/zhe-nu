@@ -5,13 +5,11 @@ import GuildsListBox from './sidebar-guilds'
 import SidebarNowPlaying from './sidebar-now-playing'
 import SidebarVoiceChannel from './sidebar-voice-channel'
 import { useClientUser } from '@/hooks/use.clientUser'
+import { useParams } from 'next/navigation'
 
-type SidebarProps = {
-  guildId: string
-}
-
-const Sidebar = ({ guildId }: SidebarProps) => {
+const Sidebar = () => {
   const { clientUser } = useClientUser()
+  const { guildId } = useParams() as { guildId: string }
 
   return (
     <aside className="flex flex-col justify-between w-96 bg-gray-900 p-6 pt-0 border-r border-gray-700">

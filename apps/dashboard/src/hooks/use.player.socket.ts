@@ -75,7 +75,7 @@ export const usePlayerSocket = ({ guildId }: PlayerSocketProps) => {
       socket.off(`player:${guildId}:isPlaying`)
       socket.off(`player:${guildId}:position`)
     }
-  }, [socket])
+  }, [guildId, socket])
 
   return { player, pause, resume, seek, skip }
 }

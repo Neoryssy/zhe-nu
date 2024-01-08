@@ -5,11 +5,6 @@ import { GuildService } from '@/services/guild.service'
 import { GuildVoiceChannel } from '@/types/bot-api'
 import { Listbox } from '@headlessui/react'
 import classNames from 'classnames'
-import { channel } from 'diagnostics_channel'
-import {
-  APIGuildVoiceChannel,
-  GuildScheduledEventEntityType,
-} from 'discord-api-types/v10'
 import { useEffect, useState } from 'react'
 
 type SidebarVoiceChannelProps = {
@@ -36,7 +31,7 @@ const SidebarVoiceChannel = ({ guildId }: SidebarVoiceChannelProps) => {
     }
 
     fetchChannels()
-  }, [])
+  }, [guildId])
 
   return (
     <div>
