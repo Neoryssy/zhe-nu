@@ -6,7 +6,7 @@ export default withAuth(
     callbacks: {
       authorized: ({ token }) => {
         if (!token) {
-          NextResponse.redirect('zhe-nu.ru/home')
+          NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}`)
           return false
         } else return true
       },
