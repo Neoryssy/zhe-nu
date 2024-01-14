@@ -25,7 +25,7 @@ const MainPage = () => {
       setSession(session)
       setIsLoading(false)
     })
-  })
+  }, [])
 
   return (
     <div className="flex flex-col justify-between items-center min-h-screen">
