@@ -35,7 +35,7 @@ export const getClientGuildsWithUser = async (userId: string) => {
   const managedGuilds: RESTPartialGuild[] = []
 
   for (const [_, guild] of discordClient.guilds.cache) {
-    const member = await guild.members.fetch(userId)
+    const member = await guild.members.fetch(userId).catch(() => undefined)
 
     if (!member) {
       continue
