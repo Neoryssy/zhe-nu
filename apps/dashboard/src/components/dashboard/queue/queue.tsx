@@ -1,6 +1,7 @@
 'use client'
 
 import { useQueueSocket } from '@/hooks/use.queue.socket'
+import msToMMSS from '@/utils/msToMMSS'
 import { ArrowSmallDownIcon, ArrowSmallUpIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 
@@ -14,12 +15,15 @@ const Queue = ({ guildId }: QueueItemProps) => {
   const renderQueue = () =>
     queue.map((item, idx) => (
       <div key={idx} className="flex bg-gray-700 space-x-2 p-3 rounded-lg">
-        <Link className="" href="#">
+        <Link className="relative" href="#">
           <img
             className="h-full w-36 object-cover rounded"
-            src={`https://img.youtube.com/vi/${item.info.identifier}/default.jpg`}
+            src={`https://img.youtube.com/vi/${item.info.identifier}/mqdefault.jpg`}
             alt=""
           />
+          <div className="absolute bottom-1 right-1 p-1 bg-gray-950/[.8] text-white text-sm leading-3 rounded">
+            <span>{msToMMSS(item.info.length)}</span>
+          </div>
         </Link>
         <div className="flex-1 flex justify-between">
           <div className="flex flex-col space-y-2">

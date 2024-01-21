@@ -2,6 +2,7 @@
 
 import { useUser } from '@/hooks/use.user'
 import { DiscordTrack } from '@/types/bot-api'
+import msToMMSS from '@/utils/msToMMSS'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import axios from 'axios'
 import Link from 'next/link'
@@ -83,12 +84,19 @@ const RightSidebar = () => {
 
         {videos.map((item) => (
           <div key={item.track} className="flex flex-col space-y-3">
-            <Link href={item.info.uri} target="_blank">
+            <Link
+              href={item.info.uri}
+              target="_blank"
+              className="relative max-w-80"
+            >
               <img
-                className="max-h-48 object-cover w-full rounded"
-                src={`https://img.youtube.com/vi/${item.info.identifier}/hqdefault.jpg`}
+                className="object-cover w-full rounded"
+                src={`https://img.youtube.com/vi/${item.info.identifier}/mqdefault.jpg`}
                 alt=""
               />
+              <div className="absolute bottom-1 right-1 p-1 bg-gray-950/[.8] text-white text-sm leading-3 rounded">
+                <span>{msToMMSS(item.info.length)}</span>
+              </div>
             </Link>
             <div className="flex justify-between items-start space-x-3">
               <h4 className="line-clamp-2 font-bold cursor-default">

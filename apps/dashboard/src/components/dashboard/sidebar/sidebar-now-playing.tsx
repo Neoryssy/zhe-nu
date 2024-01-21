@@ -1,6 +1,7 @@
 'use client'
 
 import { usePlayerSocket } from '@/hooks/use.player.socket'
+import msToMMSS from '@/utils/msToMMSS'
 import Link from 'next/link'
 
 type SidebarNowPlayingProps = {
@@ -15,15 +16,18 @@ const SidebarNowPlaying = ({ guildId }: SidebarNowPlayingProps) => {
       <h3 className="text-xl font-bold">Сейчас играет:</h3>
       <div className="flex space-x-2">
         <Link
-          className="flex max-h-20"
+          className="relative flex"
           target="_blank"
           href={player!.track!.info.uri}
         >
           <img
-            className="h-full max-w-fit object-cover rounded"
-            src={`https://img.youtube.com/vi/${player.track?.info.identifier}/default.jpg`}
+            className="w-80 object-cover rounded"
+            src={`https://img.youtube.com/vi/${player.track?.info.identifier}/mqdefault.jpg`}
             alt=""
           />
+          <div className="absolute bottom-1 right-1 p-1 bg-gray-950/[.8] text-white text-sm leading-3 rounded">
+            <span>{msToMMSS(player.duration)}</span>
+          </div>
         </Link>
 
         <div className="flex flex-col justify-between">
