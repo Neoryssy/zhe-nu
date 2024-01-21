@@ -28,27 +28,41 @@ const GuildList = ({ guilds }: GuildListProps) => {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-10">
+    <div className="grid grid-cols-3 gap-10 w-full">
       {guilds.map((guild) => (
         <div key={guild.id} className="flex flex-col space-y-3">
           <div className="flex relative justify-center items-center bg-gray-900 h-40 overflow-hidden rounded-md">
             <div
               className="absolute inset-0 bg-no-repeat bg-center bg-cover opacity-30 scale-125 blur"
-              style={{
-                background: `url(${process.env.NEXT_PUBLIC_DISCORD_CDN_ICONS}/${guild.id}/${guild.icon})`,
-              }}
+              style={
+                guild.icon
+                  ? {
+                      backgroundImage: `url(${process.env.NEXT_PUBLIC_DISCORD_CDN_ICONS}/${guild.id}/${guild.icon})`,
+                    }
+                  : undefined
+              }
             ></div>
-            <img
-              className="h-20 w-20 border rounded-full z-10"
-              src={`${process.env.NEXT_PUBLIC_DISCORD_CDN_ICONS}/${guild.id}/${guild.icon}.jpg`}
-              alt=""
-            />
+            {guild.icon ? (
+              <img
+                className="h-[4.5rem] w-[4.5rem] border-2 rounded-full z-10"
+                src={`${process.env.NEXT_PUBLIC_DISCORD_CDN_ICONS}/${guild.id}/${guild.icon}`}
+                alt=""
+              />
+            ) : (
+              <div className="flex h-[4.5rem] w-[4.5rem] justify-center items-center font-bold text-2xl border-2 rounded-full z-10">
+                {guild.name[0]}
+              </div>
+            )}
           </div>
           <div className="flex justify-between items-start space-x-2">
             <div className="flex flex-col justify-between space-y-1">
-              <h3 className="font-bold line-clamp-1">{guild.name}</h3>
-              <span className="text-sm text-gray-300">
-                {guild.owner ? 'Владелец' : guild.bot_master ? 'Бот-мастер' : 'Пользователь'}
+              <h3 className="font-bold text-sm line-clamp-1">{guild.name}</h3>
+              <span className="text-xs text-gray-300">
+                {guild.owner
+                  ? 'Владелец'
+                  : guild.bot_master
+                  ? 'Бот-мастер'
+                  : 'Пользователь'}
               </span>
             </div>
 
@@ -57,14 +71,14 @@ const GuildList = ({ guilds }: GuildListProps) => {
                 onClick={() => {
                   handleToGuild(guild.id)
                 }}
-                className="flex items-center bg-blue-600 p-3 rounded"
+                className="flex items-center bg-blue-600 p-2 rounded"
               >
                 Перейти
               </button>
             ) : (
               <button
                 onClick={() => handleAddGuild(guild.id)}
-                className="flex items-center bg-green-600 p-3 rounded"
+                className="flex items-center bg-green-600 p-2 rounded"
               >
                 Добавить
               </button>
