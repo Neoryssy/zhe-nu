@@ -1,4 +1,4 @@
-import { GuildVoiceChannel } from '@/types/bot-api'
+import { GuildVoiceChannel, RESTPartialGuild } from '@/types/bot-api'
 import { PartialGuild } from '@/types/guild'
 import axios from 'axios'
 import { getSession } from 'next-auth/react'
@@ -50,6 +50,29 @@ const getCurrentUserGuildsWithClient = async (): Promise<PartialGuild[]> => {
   }
 }
 
+const getCurrentUserManagedGuilds = async (): Promise<RESTPartialGuild[]> => {
+  try {
+    const session = await getSession()
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/@me/managed-guilds`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+      }
+    )
+
+    if (res.status !== 200) {
+      return []
+    }
+
+    return res.data
+  } catch (error) {
+    console.log('[GET_CURRENT_USER_MANAGED_GUILDS]', error)
+    return []
+  }
+}
+
 const getGuildVoiceChannels = async (
   guildId: string
 ): Promise<GuildVoiceChannel[]> => {
@@ -70,11 +93,10 @@ const getGuildVoiceChannels = async (
   }
 }
 
-//const getGuilds = async (guildId: string): Promise<Guild> => {}
-
 export const GuildService = {
   getClientGuilds,
   getCurrentUserGuilds,
   getCurrentUserGuildsWithClient,
+  getCurrentUserManagedGuilds,
   getGuildVoiceChannels,
 }

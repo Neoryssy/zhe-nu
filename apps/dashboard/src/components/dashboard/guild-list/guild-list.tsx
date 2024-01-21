@@ -1,12 +1,12 @@
+import { RESTPartialGuild } from '@/types/bot-api'
 import { PartialGuild } from '@/types/guild'
 import { useRouter } from 'next/navigation'
 
 type GuildListProps = {
-  clientGuilds: PartialGuild[]
-  userGuilds: PartialGuild[]
+  guilds: RESTPartialGuild[]
 }
 
-const GuildList = ({ clientGuilds, userGuilds }: GuildListProps) => {
+const GuildList = ({ guilds }: GuildListProps) => {
   const router = useRouter()
 
   const handleAddGuild = (guildId: string) => {
@@ -29,7 +29,7 @@ const GuildList = ({ clientGuilds, userGuilds }: GuildListProps) => {
 
   return (
     <div className="grid grid-cols-3 gap-10">
-      {userGuilds.map((guild) => (
+      {guilds.map((guild) => (
         <div key={guild.id} className="flex flex-col space-y-3">
           <div className="flex relative justify-center items-center bg-gray-900 h-40 overflow-hidden rounded-md">
             <div
@@ -48,11 +48,11 @@ const GuildList = ({ clientGuilds, userGuilds }: GuildListProps) => {
             <div className="flex flex-col justify-between space-y-1">
               <h3 className="font-bold line-clamp-1">{guild.name}</h3>
               <span className="text-sm text-gray-300">
-                {guild.owner ? 'Создатель' : 'Подписчик'}
+                {guild.owner ? 'Владелец' : guild.bot_master ? 'Бот-мастер' : 'Пользователь'}
               </span>
             </div>
 
-            {clientGuilds.some((item) => item.id === guild.id) ? (
+            {guild.bot ? (
               <button
                 onClick={() => {
                   handleToGuild(guild.id)

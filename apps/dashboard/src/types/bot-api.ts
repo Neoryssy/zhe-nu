@@ -21,6 +21,16 @@ export type DiscordTrack = {
   requester: GuildMember
 }
 
+export type RESTPartialGuild = {
+  bot: boolean
+  bot_master: boolean
+  id: string
+  name: string
+  icon: string | null
+  owner: boolean
+  permissions: string
+}
+
 export type Guild = {
   id: string
   name: string
