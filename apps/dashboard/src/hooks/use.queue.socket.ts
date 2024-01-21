@@ -11,7 +11,6 @@ export const useQueueSocket = ({ guildId }: QueueSocketProps) => {
   const [queue, setQueue] = useState<DiscordTrack[]>([])
 
   useEffect(() => {
-    console.log(1)
     if (!socket) return
 
     socket.emit('queue:get', guildId)
