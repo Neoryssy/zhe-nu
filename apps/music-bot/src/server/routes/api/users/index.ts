@@ -1,6 +1,12 @@
 import { Router } from 'express'
 import discordClient from '../../../../bot/discordClient'
 import { User } from 'discord.js'
+import {
+  fetchGuilds,
+  fetchUserData,
+  getClientGuildsWithUser,
+  processManagedGuilds,
+} from '../../../../utils/guilds'
 
 const router = Router()
 
@@ -53,6 +59,48 @@ router.get('/@me', async (req, res) => {
     const user = (await discordClient.users.fetch(data.id)) as User
 
     return res.status(200).json(user)
+  } catch (error) {
+    console.log('[USER_GET]', error)
+    return res.status(500).json({ message: 'Internal Error' })
+  }
+})
+
+router.get('/@me/managed-guilds', async (req, res) => {
+  const { headers } = req
+  const { authorization } = headers
+
+  if (!authorization) {
+    return res.status(401).json({ message: 'Unauthorized' })
+  }
+
+  try {
+    const { response: guildsResponse, data: guildsData } = await fetchGuilds(
+      authorization
+    )
+
+    if (guildsResponse.status !== 200) {
+      return res
+        .status(guildsResponse.status)
+        .json({ message: guildsData.message })
+    }
+
+    const { response: userResponse, data: userData } = await fetchUserData(
+      authorization
+    )
+
+    if (userResponse.status !== 200) {
+      return res.status(userResponse.status).json({ message: userData.message })
+    }
+
+    const managedGuilds = [...processManagedGuilds(guildsData)]
+
+    for (const guild of await getClientGuildsWithUser(userData.id)) {
+      if (!managedGuilds.find((m) => m.id === guild.id)) {
+        managedGuilds.push(guild)
+      }
+    }
+
+    return res.status(200).json(managedGuilds)
   } catch (error) {
     console.log('[USER_GET]', error)
     return res.status(500).json({ message: 'Internal Error' })
