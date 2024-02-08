@@ -147,6 +147,17 @@ export default class Dispatcher {
     }
   }
 
+  moveTrack(from: number, to: number) {
+    if (!this._current) return
+    
+    const queue = [...this._queue]
+    const track = queue.splice(from, 1)[0]
+
+    queue.splice(to, 0, track)
+
+    this.setQueue(queue)
+  }
+
   pause() {
     if (!this._current) return
     if (this.paused) return
