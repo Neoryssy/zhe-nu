@@ -10,7 +10,7 @@ type QueueItemProps = {
 }
 
 const Queue = ({ guildId }: QueueItemProps) => {
-  const { queue } = useQueueSocket({ guildId })
+  const { queue, moveTrack } = useQueueSocket({ guildId })
 
   const renderQueue = () =>
     queue.map((item, idx) => (
@@ -34,11 +34,19 @@ const Queue = ({ guildId }: QueueItemProps) => {
           </div>
 
           <div className="flex flex-col justify-center space-y-3">
-            <button disabled={true} className="disabled:cursor-not-allowed ">
+            <button
+              onClick={() => {
+                moveTrack(idx, idx - 1)
+              }}
+              className="disabled:cursor-not-allowed "
+            >
               <ArrowSmallUpIcon className="h-8" />
             </button>
 
-            <button disabled={true} className="disabled:cursor-not-allowed ">
+            <button
+              onClick={() => moveTrack(idx, idx + 1)}
+              className="disabled:cursor-not-allowed "
+            >
               <ArrowSmallDownIcon className="h-8" />
             </button>
           </div>
