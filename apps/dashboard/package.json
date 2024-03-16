@@ -18,6 +18,8 @@
     "axios": "^1.6.2",
     "classnames": "^2.3.2",
     "discord-api-types": "^0.37.64",
+    "flowbite": "^2.3.0",
+    "flowbite-react": "^0.7.3",
     "moment": "^2.29.4",
     "next": "14.0.2",
     "next-auth": "^4.24.5",
