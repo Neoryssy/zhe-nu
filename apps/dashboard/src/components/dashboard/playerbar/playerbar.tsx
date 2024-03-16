@@ -2,6 +2,7 @@
 
 import { usePlayerSocket } from '@/hooks/use.player.socket'
 import msToMMSS from '@/utils/msToMMSS'
+import { Tooltip } from 'flowbite-react'
 import {
   ArrowPathIcon,
   BackwardIcon,
@@ -103,17 +104,19 @@ const PlayerBar = () => {
             </div>
 
             <div className="flex">
-              <button
-                disabled={true}
-                onClick={() => {}}
-                className="disabled:cursor-not-allowed hover:bg-gray-700 p-1 rounded"
-              >
-                {isMuted ? (
-                  <SpeakerXMarkIcon className="h-5 w-5" />
-                ) : (
-                  <SpeakerWaveIcon className="h-5 w-5" />
-                )}
-              </button>
+              <Tooltip arrow={false} content="Будет добавлено в будущем" placement='right' className='bg-gray-700'>
+                <button
+                  disabled={true}
+                  onClick={() => {}}
+                  className="disabled:text-slate-500 hover:bg-gray-700 p-1 rounded"
+                >
+                  {isMuted ? (
+                    <SpeakerXMarkIcon className="h-5 w-5" />
+                  ) : (
+                    <SpeakerWaveIcon className="h-5 w-5" />
+                  )}
+                </button>
+              </Tooltip>
             </div>
           </div>
         </div>
