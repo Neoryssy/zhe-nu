@@ -3,7 +3,7 @@
 import { useUser } from '@/hooks/use.user'
 import { DiscordTrack } from '@/types/bot-api'
 import msToMMSS from '@/utils/msToMMSS'
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import axios from 'axios'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -77,8 +77,9 @@ const RightSidebar = () => {
           <button
             type="submit"
             className="absolute flex items-center inset-y-0 right-0 px-3"
+            onClick={() => setQuery('')}
           >
-            <MagnifyingGlassIcon className="w-5 h-5" />
+            <XMarkIcon className="w-7 h-7" />
           </button>
         </div>
 
