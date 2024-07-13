@@ -10,9 +10,19 @@ export const useQueueSocket = ({ guildId }: QueueSocketProps) => {
   const { socket } = useSocket()
   const [queue, setQueue] = useState<DiscordTrack[]>([])
 
+  const clearQueue = () => {
+    if (!socket) return
+    socket.emit('queue:clear', guildId)
+  }
+
   const moveTrack = (from: number, to: number) => {
     if (!socket) return
     socket.emit('queue:moveTrack', guildId, from, to)
+  }
+
+  const removeTrack = (index: number) => {
+    if (!socket) return
+    socket.emit('queue:removeTrack', guildId, index)
   }
 
   useEffect(() => {
@@ -34,5 +44,5 @@ export const useQueueSocket = ({ guildId }: QueueSocketProps) => {
     }
   }, [guildId, socket])
 
-  return { queue, moveTrack }
+  return { queue, clearQueue, moveTrack, removeTrack }
 }

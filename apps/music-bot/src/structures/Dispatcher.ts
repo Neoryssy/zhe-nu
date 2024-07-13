@@ -123,6 +123,10 @@ export default class Dispatcher {
     return this._player.connection.channelId
   }
 
+  clear() {
+    this.setQueue([])
+  }
+
   destroy() {
     this._player.connection.disconnect()
     this.setQueue([])
@@ -165,6 +169,14 @@ export default class Dispatcher {
     return this._player.setPaused(true)
   }
 
+  removeTrack(index: number) {
+    if (!this._current) return
+    const queue = [...this._queue]
+    queue.splice(index, 1)
+
+    this.setQueue(queue)
+  }
+
   seek(position: number) {
     if (!this._current) return
     this._player.seekTo(position)
@@ -178,6 +190,8 @@ export default class Dispatcher {
   skip() {
     if (!this._current) return
     const position = this._current.info.length
+
+    this._player.setPaused(false)
     this._player.seekTo(position)
   }
 

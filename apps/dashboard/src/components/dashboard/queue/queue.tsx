@@ -2,7 +2,11 @@
 
 import { useQueueSocket } from '@/hooks/use.queue.socket'
 import msToMMSS from '@/utils/msToMMSS'
-import { ArrowSmallDownIcon, ArrowSmallUpIcon } from '@heroicons/react/20/solid'
+import {
+  ArrowSmallDownIcon,
+  ArrowSmallUpIcon,
+  XMarkIcon,
+} from '@heroicons/react/20/solid'
 import Link from 'next/link'
 
 type QueueItemProps = {
@@ -10,7 +14,7 @@ type QueueItemProps = {
 }
 
 const Queue = ({ guildId }: QueueItemProps) => {
-  const { queue, moveTrack } = useQueueSocket({ guildId })
+  const { queue, clearQueue, moveTrack, removeTrack } = useQueueSocket({ guildId })
 
   const renderQueue = () =>
     queue.map((item, idx) => (
@@ -33,22 +37,35 @@ const Queue = ({ guildId }: QueueItemProps) => {
             </span>
           </div>
 
-          <div className="flex flex-col justify-center space-y-3">
-            <button
-              onClick={() => {
-                moveTrack(idx, idx - 1)
-              }}
-              className="disabled:cursor-not-allowed "
-            >
-              <ArrowSmallUpIcon className="h-8" />
-            </button>
+          <div className="flex flex-col justify-center">
+            <div>
+              <button
+                onClick={() => {
+                  removeTrack(idx)
+                }}
+                className="disabled:cursor-not-allowed "
+              >
+                <XMarkIcon className="h-6" />
+              </button>
+            </div>
 
-            <button
-              onClick={() => moveTrack(idx, idx + 1)}
-              className="disabled:cursor-not-allowed "
-            >
-              <ArrowSmallDownIcon className="h-8" />
-            </button>
+            <div className="flex flex-col">
+              <button
+                onClick={() => {
+                  moveTrack(idx, idx - 1)
+                }}
+                className="disabled:cursor-not-allowed "
+              >
+                <ArrowSmallUpIcon className="h-6" />
+              </button>
+
+              <button
+                onClick={() => moveTrack(idx, idx + 1)}
+                className="disabled:cursor-not-allowed "
+              >
+                <ArrowSmallDownIcon className="h-6" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -56,7 +73,22 @@ const Queue = ({ guildId }: QueueItemProps) => {
 
   return (
     <div className="flex flex-col space-y-5 p-3">
-      <h2 className="flex justify-center font-bold text-xl">Очередь</h2>
+      <div className="flex justify-between items-center">
+        <div className="basis-1/4"></div>
+        <div className="basis-2/4">
+          <h2 className="text-center font-bold text-xl">Очередь</h2>
+        </div>
+        <div className="basis-1/4 flex justify-end">
+          <button
+            onClick={() => {
+              clearQueue()
+            }}
+            className="basis-1/4 whitespace-nowrap text-red-500"
+          >
+            Очистить очередь
+          </button>
+        </div>
+      </div>
 
       <div className="flex flex-col space-y-3">
         {queue.length > 0 ? (
